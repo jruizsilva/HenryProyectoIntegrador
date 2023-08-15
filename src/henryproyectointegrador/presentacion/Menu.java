@@ -16,7 +16,7 @@ public class Menu {
         this.opcionesValidas = opcionesValidas;
     }
 
-    public String mostrarMenuOpciones() {
+    public String mostrarMenu() {
         Scanner scanner = new Scanner(System.in);
         String opcion;
         boolean inputValido = false;

@@ -16,7 +16,7 @@ public class Gasto {
         this.fecha = fecha;
     }
 
-    private Gasto() {
+    public Gasto() {
         this.id_gasto = ++instanciasCreadas;
     }
 

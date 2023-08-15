@@ -1,9 +1,12 @@
 package henryproyectointegrador.presentacion;
 
+import henryproyectointegrador.domain.CategoriaGasto;
 import henryproyectointegrador.domain.Gasto;
+import henryproyectointegrador.excepciones.MontoIngresadoInvalidoException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 public class Presentacion {
@@ -24,17 +27,61 @@ public class Presentacion {
         gastoListPrinter.print(list, clase);
     }
 
-    public void initConsoleMenu() {
-        Map<String, String> menuPrincipalOpcionesValidas = new TreeMap<>();
-        menuPrincipalOpcionesValidas.put("1", "1. Agregar gasto");
-        menuPrincipalOpcionesValidas.put("5", "5. Salir");
-        Menu menuPrincipal = new Menu(menuPrincipalOpcionesValidas);
+    public void initConsoleMenu() throws MontoIngresadoInvalidoException {
+        Menu menuPrincipal = this.crearMenuPrincipal();
+        String menuPrincipalOpcionSeleccionada = menuPrincipal.mostrarMenu();
 
-        String opcionSeleccionada = menuPrincipal.mostrarMenuOpciones();
-        switch (opcionSeleccionada) {
-            case "1" -> System.out.println("Opcion seleccionada \"1\" \nCreando gasto...");
-            case "5" -> System.out.println("Opcion seleccionada \"5\"\nSaliendo...");
-            default -> System.out.println("Opcion no valida");
+        switch (menuPrincipalOpcionSeleccionada) {
+            case "1": {
+                System.out.println("Opcion seleccionada \"1\" \nAgregar gasto");
+                Scanner scanner = new Scanner(System.in);
+                Menu menuAgregarGasto = this.crearMenuAgregarGasto();
+                Menu menuCategoria = this.crearMenuCategoria();
+                double montoDouble;
+                String menuAgregarGastoOpcionSeleccionada = menuAgregarGasto.mostrarMenu();
+                switch (menuAgregarGastoOpcionSeleccionada) {
+                    case "1":
+                        try {
+                            String monto = scanner.next();
+                            montoDouble = Double.parseDouble(monto);
+                        } catch (NumberFormatException e){
+                            throw new MontoIngresadoInvalidoException("No se pudo convertir de string a double");
+                        }
+
+                }
+                break;
+            }
+            case "5": {
+                System.out.println("Opcion seleccionada \"5\"\nSaliendo...");
+                break;
+            }
+            default:
+                System.out.println("Opcion no valida");
+                break;
         }
+    }
+
+    private Menu crearMenuPrincipal() {
+        Map<String, String> opcionesValidas = new TreeMap<>();
+        opcionesValidas.put("1", "1. Agregar gasto");
+        opcionesValidas.put("5", "5. Salir");
+        return new Menu(opcionesValidas);
+    }
+
+    private Menu crearMenuAgregarGasto() {
+        Map<String, String> opcionesValidas = new TreeMap<>();
+        opcionesValidas.put("1", "Asignar monto");
+        opcionesValidas.put("2", "Asignar categoria");
+        opcionesValidas.put("3", "Asignar fecha");
+        opcionesValidas.put("4", "Guardar");
+        opcionesValidas.put("5", "Cancelar");
+        return new Menu(opcionesValidas);
+    }
+
+    private Menu crearMenuCategoria() {
+        Map<String, String> opcionesValidas = new TreeMap<>();
+        opcionesValidas.put("1", String.valueOf(CategoriaGasto.COMPRAS));
+        opcionesValidas.put("2", String.valueOf(CategoriaGasto.PAGO_SERVICIOS));
+        return new Menu(opcionesValidas);
     }
 }
