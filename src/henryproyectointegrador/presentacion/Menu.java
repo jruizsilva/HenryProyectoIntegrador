@@ -5,7 +5,7 @@ import henryproyectointegrador.utils.ScannerValidator;
 import java.util.Map;
 import java.util.Scanner;
 
-public final class Menu {
+public class Menu {
     private static final ScannerValidator scannerValidator = ScannerValidator.getInstance();
     private Map<String, String> opcionesValidas;
 
