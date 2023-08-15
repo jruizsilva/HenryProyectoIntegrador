@@ -5,13 +5,8 @@ import henryproyectointegrador.utils.ScannerValidator;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Menu {
+public record Menu(String... opcionesValidas) {
     private static final ScannerValidator scannerValidator = ScannerValidator.getInstance();
-    private final String[] opcionesValidas;
-
-    public Menu(String... opcionesValidas) {
-        this.opcionesValidas = opcionesValidas;
-    }
 
     public String mostrarMenuOpciones() {
         Scanner scanner = new Scanner(System.in);
@@ -30,10 +25,6 @@ public class Menu {
         } while (!opcion.equals("5") && !inputValido);
         scanner.close();
         return opcion;
-    }
-
-    public String[] getOpcionesValidas() {
-        return this.opcionesValidas;
     }
 
     @Override
