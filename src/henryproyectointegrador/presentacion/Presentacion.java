@@ -3,10 +3,11 @@ package henryproyectointegrador.presentacion;
 import henryproyectointegrador.domain.Gasto;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Presentacion {
     private static final GastoListPrinter gastoListPrinter = GastoListPrinter.getInstance();
-    private static final Menu menuPrincipal = new Menu("1", "5");
     private static Presentacion instancia;
 
     private Presentacion() {
@@ -24,7 +25,16 @@ public class Presentacion {
     }
 
     public void initConsoleMenu() {
+        Map<String, String> menuPrincipalOpcionesValidas = new TreeMap<>();
+        menuPrincipalOpcionesValidas.put("1", "1. Agregar gasto");
+        menuPrincipalOpcionesValidas.put("5", "5. Salir");
+        Menu menuPrincipal = new Menu(menuPrincipalOpcionesValidas);
+
         String opcionSeleccionada = menuPrincipal.mostrarMenuOpciones();
-        System.out.println("opcionSeleccionada = " + opcionSeleccionada);
+        switch (opcionSeleccionada) {
+            case "1" -> System.out.println("Opcion seleccionada \"1\" \nCreando gasto...");
+            case "5" -> System.out.println("Opcion seleccionada \"5\"\nSaliendo...");
+            default -> System.out.println("Opcion no valida");
+        }
     }
 }
