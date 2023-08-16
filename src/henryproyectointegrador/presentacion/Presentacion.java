@@ -71,7 +71,7 @@ public class Presentacion {
                                 System.out.println("Monto: " + monto);
                                 System.out.println("Categoria: " + categoriaGasto);
                                 System.out.println("Fecha: " + fecha);
-                                System.out.println("¿Desea guardar el gasto? (1. Si / 2. No)");
+                                System.out.println("¿Desea guardar el gasto? (1. Si / 5. No)");
                                 String menuGuardarGastoOpcionSeleccionada = menuGuardarGasto.mostrarMenu();
                                 if (menuGuardarGastoOpcionSeleccionada.equals("1")) {
                                     seguimientoGastos.agregarGasto(monto, categoriaGasto, fecha);
@@ -131,7 +131,7 @@ public class Presentacion {
     private Menu crearMenuMostrarGastos() {
         Map<String, String> opcionesValidas = new TreeMap<>();
         opcionesValidas.put("1", "1. Mostrar gastos");
-        opcionesValidas.put("5", "5. Cancelar");
+        opcionesValidas.put("5", "5. Volver al menu principal");
         return new Menu(opcionesValidas);
     }
 
@@ -141,7 +141,7 @@ public class Presentacion {
         opcionesValidas.put("2", "2. Asignar categoria");
         opcionesValidas.put("3", "3. Asignar fecha");
         opcionesValidas.put("4", "4. Guardar");
-        opcionesValidas.put("5", "5. Cancelar");
+        opcionesValidas.put("5", "5. Volver al menu principal");
         return new Menu(opcionesValidas);
     }
 
@@ -156,8 +156,8 @@ public class Presentacion {
 
     private Menu crearMenuGuardarGasto() {
         Map<String, String> opcionesValidas = new TreeMap<>();
-        opcionesValidas.put("1", "1. Guardar");
-        opcionesValidas.put("5", "5. Cancelar");
+        opcionesValidas.put("1", "1. Si");
+        opcionesValidas.put("5", "5. No");
         return new Menu(opcionesValidas);
     }
 
