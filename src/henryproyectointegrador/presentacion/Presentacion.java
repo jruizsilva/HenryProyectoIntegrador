@@ -3,12 +3,12 @@ package henryproyectointegrador.presentacion;
 import henryproyectointegrador.domain.CategoriaGasto;
 import henryproyectointegrador.domain.Gasto;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static henryproyectointegrador.utils.ScannerInput.cerrarScanner;
-import static henryproyectointegrador.utils.ScannerInput.solicitarDouble;
+import static henryproyectointegrador.utils.ScannerInput.*;
 
 public class Presentacion {
     private static final GastoListPrinter gastoListPrinter = GastoListPrinter.getInstance();
@@ -38,12 +38,22 @@ public class Presentacion {
                 Menu menuAgregarGasto = this.crearMenuAgregarGasto();
                 Menu menuCategoria = this.crearMenuCategoria();
                 String menuAgregarGastoOpcionSeleccionada = menuAgregarGasto.mostrarMenu();
+                double monto;
+                CategoriaGasto categoriaGasto;
+                Date fecha;
 
                 switch (menuAgregarGastoOpcionSeleccionada) {
                     case "1":
                         System.out.println("\nOpcion seleccionada \"1\" - Asignar gasto");
-                        double monto = solicitarDouble("Ingresa el monto del gasto: ");
-                        System.out.println("monto = " + monto);
+                        monto = solicitarDouble("Ingresa el monto del gasto: ");
+                        System.out.printf("Monto asignado: %.2f\n", monto);
+                        break;
+                    case "2":
+                        System.out.println("\nOpcion seleccionada \"2\" - Asignar categoria");
+                    case "3":
+                        System.out.println("\nOpcion seleccionada \"3\" - Asignar fecha");
+                        fecha = solicitarFecha("Ingresa la fecha del gasto siguiendo el formato dd/MM/yyyy: ");
+                        System.out.printf("Fecha asignada: %s\n", fecha);
                 }
 
                 break;
