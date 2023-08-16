@@ -55,9 +55,4 @@ public class ScannerValidator {
             throw new IdGastoIngresadoInvalidoException(msg);
         }
     }
-
-    public static boolean isValidBoolean(String entrada) {
-        return Arrays.asList("true", "false")
-                     .contains(entrada);
-    }
 }

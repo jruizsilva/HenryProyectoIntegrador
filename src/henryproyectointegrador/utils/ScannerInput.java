@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.Scanner;
 
 import static henryproyectointegrador.utils.ScannerValidator.*;
-import static henryproyectointegrador.utils.Utilidades.contieneString;
 
 public class ScannerInput {
     private static final Scanner scanner = new Scanner(System.in);
@@ -67,19 +66,6 @@ public class ScannerInput {
             }
         } while (!isValidInput);
         return entradaInt;
-    }
-
-    public static boolean solicitarBoolean(String textToShow, String... opcionesValidas) {
-        /* TODO */
-        boolean entradaBoolean = false;
-        String entrada;
-        do {
-            System.out.println(textToShow);
-            entrada = scanner.next();
-            if (entrada.equals("1")) entradaBoolean = true;
-            if (entrada.equals("5")) entradaBoolean = false;
-        } while (contieneString(opcionesValidas, entrada));
-        return entradaBoolean;
     }
 
     public static void cerrarScanner() {
