@@ -2,12 +2,13 @@ package henryproyectointegrador.presentacion;
 
 import henryproyectointegrador.domain.CategoriaGasto;
 import henryproyectointegrador.domain.Gasto;
-import henryproyectointegrador.excepciones.MontoIngresadoInvalidoException;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.TreeMap;
+
+import static henryproyectointegrador.presentacion.ScannerInput.cerrarScanner;
+import static henryproyectointegrador.presentacion.ScannerInput.solicitarDouble;
 
 public class Presentacion {
     private static final GastoListPrinter gastoListPrinter = GastoListPrinter.getInstance();
@@ -27,36 +28,28 @@ public class Presentacion {
         gastoListPrinter.print(list, clase);
     }
 
-    public void initConsoleMenu() throws MontoIngresadoInvalidoException {
+    public void initConsoleMenu() {
         Menu menuPrincipal = this.crearMenuPrincipal();
         String menuPrincipalOpcionSeleccionada = menuPrincipal.mostrarMenu();
 
         switch (menuPrincipalOpcionSeleccionada) {
             case "1": {
-                System.out.println("\nOpcion seleccionada \"1\" \nAgregar gasto");
+                System.out.println("\nOpcion seleccionada \"1\" - Agregar gasto");
                 Menu menuAgregarGasto = this.crearMenuAgregarGasto();
                 Menu menuCategoria = this.crearMenuCategoria();
-                double montoDouble;
                 String menuAgregarGastoOpcionSeleccionada = menuAgregarGasto.mostrarMenu();
 
                 switch (menuAgregarGastoOpcionSeleccionada) {
                     case "1":
-                        Scanner scanner = Menu.getScanner();
-                        try {
-                            String monto = scanner.next();
-                            montoDouble = Double.parseDouble(monto);
-                            System.out.println("montoDouble = " + montoDouble);
-                        } catch (NumberFormatException e) {
-                            throw new MontoIngresadoInvalidoException("No se pudo convertir el dato ingresado a un double");
-                        }
+                        System.out.println("\nOpcion seleccionada \"1\" - Asignar gasto");
+                        double monto = solicitarDouble("Ingresa el monto del gasto: ");
+                        System.out.println("monto = " + monto);
                 }
 
                 break;
             }
             case "5": {
-                System.out.println("Opcion seleccionada \"5\"\nSaliendo...");
-                Menu.cerrarScanner();
-
+                cerrarScanner();
                 break;
             }
             default:

@@ -1,5 +1,7 @@
 package henryproyectointegrador.utils;
 
+import henryproyectointegrador.excepciones.MontoIngresadoInvalidoException;
+
 import java.util.Arrays;
 
 public class ScannerValidator {
@@ -18,5 +20,15 @@ public class ScannerValidator {
     public static boolean validOption(String opcion, String[] opcionesValidas) {
         return Arrays.asList(opcionesValidas)
                      .contains(opcion);
+    }
+
+    public static boolean isValidDouble(String entrada) throws MontoIngresadoInvalidoException {
+        try {
+            Double.parseDouble(entrada);
+            return true;
+        } catch (NumberFormatException e) {
+            String msg = String.format("El dato ingresado \"%s\" no es valido. Intente nuevamente", entrada);
+            throw new MontoIngresadoInvalidoException(msg);
+        }
     }
 }

@@ -1,12 +1,11 @@
 package henryproyectointegrador.presentacion;
 
 import java.util.Map;
-import java.util.Scanner;
 
+import static henryproyectointegrador.presentacion.ScannerInput.solicitarString;
 import static henryproyectointegrador.utils.ScannerValidator.validOption;
 
 public class Menu {
-    private static final Scanner scanner = new Scanner(System.in);
     private Map<String, String> opcionesValidas;
 
     public Menu() {
@@ -14,14 +13,6 @@ public class Menu {
 
     public Menu(Map<String, String> opcionesValidas) {
         this.opcionesValidas = opcionesValidas;
-    }
-
-    public static Scanner getScanner() {
-        return Menu.scanner;
-    }
-
-    public static void cerrarScanner() {
-        Menu.scanner.close();
     }
 
     public String mostrarMenu() {
@@ -32,7 +23,7 @@ public class Menu {
                 System.out.println(this.opcionesValidas.get(key));
             }
             System.out.println("Seleccione una opción: ");
-            opcion = Menu.scanner.next();
+            opcion = solicitarString();
             if (validOption(opcion, this.opcionesValidas.keySet()
                                                         .toArray(new String[0]))) {
                 inputValido = true;
