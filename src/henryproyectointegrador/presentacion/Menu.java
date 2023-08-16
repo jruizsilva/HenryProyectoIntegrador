@@ -1,14 +1,12 @@
 package henryproyectointegrador.presentacion;
 
-import henryproyectointegrador.utils.ScannerValidator;
-
 import java.util.Map;
 import java.util.Scanner;
 
 import static henryproyectointegrador.utils.ScannerValidator.validOption;
 
 public class Menu {
-    private static final ScannerValidator scannerValidator = ScannerValidator.getInstance();
+    private static final Scanner scanner = new Scanner(System.in);
     private Map<String, String> opcionesValidas;
 
     public Menu() {
@@ -18,8 +16,15 @@ public class Menu {
         this.opcionesValidas = opcionesValidas;
     }
 
+    public static Scanner getScanner() {
+        return Menu.scanner;
+    }
+
+    public static void cerrarScanner() {
+        Menu.scanner.close();
+    }
+
     public String mostrarMenu() {
-        Scanner scanner = new Scanner(System.in);
         String opcion;
         boolean inputValido = false;
         do {
@@ -27,7 +32,7 @@ public class Menu {
                 System.out.println(this.opcionesValidas.get(key));
             }
             System.out.println("Seleccione una opción: ");
-            opcion = scanner.next();
+            opcion = Menu.scanner.next();
             if (validOption(opcion, this.opcionesValidas.keySet()
                                                         .toArray(new String[0]))) {
                 inputValido = true;
@@ -36,7 +41,6 @@ public class Menu {
             if (!inputValido)
                 System.out.printf("\nOpcion \"%s\" no valida, intente de nuevo.\n", opcion);
         } while (!opcion.equals("5") && !inputValido);
-        scanner.close();
         return opcion;
     }
 }

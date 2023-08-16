@@ -1,5 +1,6 @@
 package henryproyectointegrador.test;
 
+import henryproyectointegrador.excepciones.MontoIngresadoInvalidoException;
 import henryproyectointegrador.interfaces.ISeguimientoGastos;
 import henryproyectointegrador.negocio.SeguimientoGastos;
 import henryproyectointegrador.presentacion.Presentacion;
@@ -16,6 +17,10 @@ public class TestSeguimientoGastos {
         List<Gasto> gastos = seguimientoGastos.obtenerGastos();
 
         presentacion.print(gastos, Gasto.class);*/
-        presentacion.initConsoleMenu();
+        try {
+            presentacion.initConsoleMenu();
+        } catch (MontoIngresadoInvalidoException e) {
+            System.out.println("MontoIngresadoInvalidoException: " + e.getMessage());
+        }
     }
 }

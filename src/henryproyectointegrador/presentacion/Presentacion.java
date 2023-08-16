@@ -33,25 +33,30 @@ public class Presentacion {
 
         switch (menuPrincipalOpcionSeleccionada) {
             case "1": {
-                System.out.println("Opcion seleccionada \"1\" \nAgregar gasto");
-                Scanner scanner = new Scanner(System.in);
+                System.out.println("\nOpcion seleccionada \"1\" \nAgregar gasto");
                 Menu menuAgregarGasto = this.crearMenuAgregarGasto();
                 Menu menuCategoria = this.crearMenuCategoria();
                 double montoDouble;
                 String menuAgregarGastoOpcionSeleccionada = menuAgregarGasto.mostrarMenu();
+
                 switch (menuAgregarGastoOpcionSeleccionada) {
                     case "1":
+                        Scanner scanner = Menu.getScanner();
                         try {
                             String monto = scanner.next();
                             montoDouble = Double.parseDouble(monto);
+                            System.out.println("montoDouble = " + montoDouble);
                         } catch (NumberFormatException e) {
-                            throw new MontoIngresadoInvalidoException("No se pudo convertir de string a double");
+                            throw new MontoIngresadoInvalidoException("No se pudo convertir el dato ingresado a un double");
                         }
                 }
+
                 break;
             }
             case "5": {
                 System.out.println("Opcion seleccionada \"5\"\nSaliendo...");
+                Menu.cerrarScanner();
+
                 break;
             }
             default:
@@ -69,11 +74,11 @@ public class Presentacion {
 
     private Menu crearMenuAgregarGasto() {
         Map<String, String> opcionesValidas = new TreeMap<>();
-        opcionesValidas.put("1", "Asignar monto");
-        opcionesValidas.put("2", "Asignar categoria");
-        opcionesValidas.put("3", "Asignar fecha");
-        opcionesValidas.put("4", "Guardar");
-        opcionesValidas.put("5", "Cancelar");
+        opcionesValidas.put("1", "1. Asignar monto");
+        opcionesValidas.put("2", "2. Asignar categoria");
+        opcionesValidas.put("3", "3. Asignar fecha");
+        opcionesValidas.put("4", "4. Guardar");
+        opcionesValidas.put("5", "5. Cancelar");
         return new Menu(opcionesValidas);
     }
 
