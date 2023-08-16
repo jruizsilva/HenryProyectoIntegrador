@@ -14,4 +14,6 @@ public interface ISeguimientoGastos {
     void modificarGasto(int id_gasto, double monto, CategoriaGasto categoriaGasto, Date fecha);
 
     List<Gasto> obtenerGastos();
+
+    Gasto obtenerGasto(int id_gasto);
 }

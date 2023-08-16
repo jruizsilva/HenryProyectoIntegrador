@@ -31,6 +31,7 @@ public class Presentacion {
         this.agregarGastosDePrueba();
         Menu menuPrincipal = this.crearMenuPrincipal();
         Menu menuMostrarGastos = this.crearMenuMostrarGastos();
+        Menu menuEliminarGasto = this.crearMenuEliminarGasto();
         String menuPrincipalOpcionSeleccionada;
 
         do {
@@ -84,7 +85,31 @@ public class Presentacion {
                 }
                 case "2" -> System.out.println("Modificar gasto");
 
-                case "3" -> System.out.println("Eliminar gasto");
+                case "3" -> {
+                    System.out.println("\n========= Menu - Eliminar gasto ===========");
+                    String menuEliminarGastoOpcionSeleccionada;
+                    do {
+                        menuEliminarGastoOpcionSeleccionada = menuEliminarGasto.mostrarMenu();
+                        switch (menuEliminarGastoOpcionSeleccionada) {
+                            case "1" -> {
+                                List<Gasto> gastos = seguimientoGastos.obtenerGastos();
+                                print(gastos, Gasto.class);
+                            }
+                            case "2" -> {
+                                int idGasto = solicitarInt("Ingresa el id del gasto a eliminar: ");
+                                Gasto gasto = seguimientoGastos.obtenerGasto(idGasto);
+                                System.out.printf("Gasto a eliminar: %s\n", gasto);
+                                boolean confirmDelete = solicitarBoolean("¿Desea eliminar el gasto? (1. Si / 5. No)", "1", "2");
+                                if (confirmDelete) {
+                                    seguimientoGastos.eliminarGasto(idGasto);
+                                }
+                            }
+                            case "5" -> {
+
+                            }
+                        }
+                    } while (!menuEliminarGastoOpcionSeleccionada.equals("5"));
+                }
 
                 case "4" -> {
                     System.out.println("\n========= Menu - Mostrar gastos ===========");
@@ -131,6 +156,14 @@ public class Presentacion {
     private Menu crearMenuMostrarGastos() {
         Map<String, String> opcionesValidas = new TreeMap<>();
         opcionesValidas.put("1", "1. Mostrar gastos");
+        opcionesValidas.put("5", "5. Volver al menu principal");
+        return new Menu(opcionesValidas);
+    }
+
+    private Menu crearMenuEliminarGasto() {
+        Map<String, String> opcionesValidas = new TreeMap<>();
+        opcionesValidas.put("1", "1. Mostrar gastos");
+        opcionesValidas.put("2", "2. Ingresar id del gasto a eliminar");
         opcionesValidas.put("5", "5. Volver al menu principal");
         return new Menu(opcionesValidas);
     }

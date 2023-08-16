@@ -54,4 +54,14 @@ public class SeguimientoGastos implements ISeguimientoGastos {
     public List<Gasto> obtenerGastos() {
         return this.gastos;
     }
+
+    @Override
+    public Gasto obtenerGasto(int id_gasto) {
+        for (Gasto gasto : this.gastos) {
+            if (gasto.getId_gasto() == id_gasto) {
+                return gasto;
+            }
+        }
+        return null;
+    }
 }
