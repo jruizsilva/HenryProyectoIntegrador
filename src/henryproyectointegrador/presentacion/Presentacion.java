@@ -44,10 +44,9 @@ public class Presentacion {
                         try {
                             String monto = scanner.next();
                             montoDouble = Double.parseDouble(monto);
-                        } catch (NumberFormatException e){
+                        } catch (NumberFormatException e) {
                             throw new MontoIngresadoInvalidoException("No se pudo convertir de string a double");
                         }
-
                 }
                 break;
             }

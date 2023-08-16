@@ -5,6 +5,8 @@ import henryproyectointegrador.utils.ScannerValidator;
 import java.util.Map;
 import java.util.Scanner;
 
+import static henryproyectointegrador.utils.ScannerValidator.validOption;
+
 public class Menu {
     private static final ScannerValidator scannerValidator = ScannerValidator.getInstance();
     private Map<String, String> opcionesValidas;
@@ -26,8 +28,8 @@ public class Menu {
             }
             System.out.println("Seleccione una opción: ");
             opcion = scanner.next();
-            if (Menu.scannerValidator.validOption(opcion, this.opcionesValidas.keySet()
-                                                                              .toArray(new String[0]))) {
+            if (validOption(opcion, this.opcionesValidas.keySet()
+                                                        .toArray(new String[0]))) {
                 inputValido = true;
             }
 

@@ -1,24 +1,21 @@
 package henryproyectointegrador.utils;
 
-import henryproyectointegrador.interfaces.IValidOption;
-
 import java.util.Arrays;
 
-public class ScannerValidator implements IValidOption {
+public class ScannerValidator {
     private static ScannerValidator instance;
 
     private ScannerValidator() {
     }
 
-    public static ScannerValidator getInstance() {
+    public synchronized static ScannerValidator getInstance() {
         if (ScannerValidator.instance == null) {
             ScannerValidator.instance = new ScannerValidator();
         }
         return ScannerValidator.instance;
     }
 
-    @Override
-    public boolean validOption(String opcion, String[] opcionesValidas) {
+    public static boolean validOption(String opcion, String[] opcionesValidas) {
         return Arrays.asList(opcionesValidas)
                      .contains(opcion);
     }
