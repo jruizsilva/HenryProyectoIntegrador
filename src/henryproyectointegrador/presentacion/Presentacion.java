@@ -27,19 +27,16 @@ public class Presentacion {
         return Presentacion.instancia;
     }
 
-    public void print(List<? extends Gasto> list, Class clase) {
-        gastoListPrinter.print(list, clase);
-    }
-
     public void initConsoleMenu() {
         Menu menuPrincipal = this.crearMenuPrincipal();
+        Menu menuMostrarGastos = this.crearMenuMostrarGastos();
         String menuPrincipalOpcionSeleccionada;
 
         do {
             System.out.println("\n========= Menu principal ===========");
             menuPrincipalOpcionSeleccionada = menuPrincipal.mostrarMenu();
             switch (menuPrincipalOpcionSeleccionada) {
-                case "1": {
+                case "1" -> {
                     Menu menuAgregarGasto = this.crearMenuAgregarGasto();
                     Menu menuCategoria = this.crearMenuCategoria();
                     Menu menuGuardarGasto = this.crearMenuGuardarGasto();
@@ -51,23 +48,23 @@ public class Presentacion {
                         System.out.println("\n========= Menu - Agregar gasto ===========");
                         menuAgregarGastoOpcionSeleccionada = menuAgregarGasto.mostrarMenu();
                         switch (menuAgregarGastoOpcionSeleccionada) {
-                            case "1":
+                            case "1" -> {
                                 System.out.println("\n---------- Asignar gasto ----------");
                                 monto = solicitarDouble("Ingresa el monto del gasto: ");
                                 System.out.printf("Monto asignado: %.2f\n", monto);
-                                break;
-                            case "2":
+                            }
+                            case "2" -> {
                                 System.out.println("\n---------- Asignar categoria ----------");
                                 String menuCategoriaOpcionSeleccionada = menuCategoria.mostrarMenu();
                                 categoriaGasto = obtenerCategoriaGasto(menuCategoriaOpcionSeleccionada);
                                 System.out.printf("Categoria asignada: %s\n", categoriaGasto);
-                                break;
-                            case "3":
+                            }
+                            case "3" -> {
                                 System.out.println("\n---------- Asignar fecha ----------");
                                 fecha = solicitarFecha("Ingresa la fecha del gasto siguiendo el formato dd/MM/yyyy: ");
                                 System.out.printf("Fecha asignada: %s\n", fecha);
-                                break;
-                            case "4":
+                            }
+                            case "4" -> {
                                 System.out.println("\n---------- Guardar gasto ----------");
                                 System.out.println("Datos del gasto a guardar");
                                 System.out.println("Monto: " + monto);
@@ -78,18 +75,32 @@ public class Presentacion {
                                 if (menuGuardarGastoOpcionSeleccionada.equals("1")) {
                                     seguimientoGastos.agregarGasto(monto, categoriaGasto, fecha);
                                 }
-                                break;
-                            case "5":
-                                break;
+                            }
+                            case "5" -> {
+                            }
                         }
                     } while (!menuAgregarGastoOpcionSeleccionada.equals("5"));
+                }
+                case "2" -> System.out.println("Modificar gasto");
 
-                    break;
+                case "3" -> System.out.println("Eliminar gasto");
+
+                case "4" -> {
+                    System.out.println("\n========= Menu - Mostrar gastos ===========");
+                    String menuMostrarGastosOpcionSeleccionada;
+                    do {
+                        menuMostrarGastosOpcionSeleccionada = menuMostrarGastos.mostrarMenu();
+                        switch (menuMostrarGastosOpcionSeleccionada) {
+                            case "1" -> {
+                                List<Gasto> gastos = seguimientoGastos.obtenerGastos();
+                                print(gastos, Gasto.class);
+                            }
+                            case "5" -> {
+                            }
+                        }
+                    } while (!menuMostrarGastosOpcionSeleccionada.equals("5"));
                 }
-                case "5": {
-                    cerrarScanner();
-                    break;
-                }
+                case "5" -> cerrarScanner();
             }
         } while (!menuPrincipalOpcionSeleccionada.equals("5"));
     }
@@ -97,7 +108,17 @@ public class Presentacion {
     private Menu crearMenuPrincipal() {
         Map<String, String> opcionesValidas = new TreeMap<>();
         opcionesValidas.put("1", "1. Agregar gasto");
+        opcionesValidas.put("2", "2. Modificar gasto");
+        opcionesValidas.put("3", "3. Eliminar gasto");
+        opcionesValidas.put("4", "4. Mostrar gastos");
         opcionesValidas.put("5", "5. Salir");
+        return new Menu(opcionesValidas);
+    }
+
+    private Menu crearMenuMostrarGastos() {
+        Map<String, String> opcionesValidas = new TreeMap<>();
+        opcionesValidas.put("1", "1. Mostrar gastos");
+        opcionesValidas.put("5", "5. Cancelar");
         return new Menu(opcionesValidas);
     }
 
@@ -123,7 +144,7 @@ public class Presentacion {
     private Menu crearMenuGuardarGasto() {
         Map<String, String> opcionesValidas = new TreeMap<>();
         opcionesValidas.put("1", "1. Guardar");
-        opcionesValidas.put("2", "2. Cancelar");
+        opcionesValidas.put("5", "5. Cancelar");
         return new Menu(opcionesValidas);
     }
 
@@ -133,5 +154,9 @@ public class Presentacion {
             case "2" -> CategoriaGasto.PAGO_SERVICIOS;
             default -> null;
         };
+    }
+
+    private void print(List<? extends Gasto> list, Class clase) {
+        gastoListPrinter.print(list, clase);
     }
 }
