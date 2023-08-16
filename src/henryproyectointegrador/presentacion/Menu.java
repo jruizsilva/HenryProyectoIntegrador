@@ -2,7 +2,7 @@ package henryproyectointegrador.presentacion;
 
 import java.util.Map;
 
-import static henryproyectointegrador.presentacion.ScannerInput.solicitarString;
+import static henryproyectointegrador.utils.ScannerInput.solicitarString;
 import static henryproyectointegrador.utils.ScannerValidator.validOption;
 
 public class Menu {

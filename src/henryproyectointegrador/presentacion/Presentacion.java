@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static henryproyectointegrador.presentacion.ScannerInput.cerrarScanner;
-import static henryproyectointegrador.presentacion.ScannerInput.solicitarDouble;
+import static henryproyectointegrador.utils.ScannerInput.cerrarScanner;
+import static henryproyectointegrador.utils.ScannerInput.solicitarDouble;
 
 public class Presentacion {
     private static final GastoListPrinter gastoListPrinter = GastoListPrinter.getInstance();

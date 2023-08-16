@@ -1,4 +1,4 @@
-package henryproyectointegrador.presentacion;
+package henryproyectointegrador.utils;
 
 import henryproyectointegrador.excepciones.MontoIngresadoInvalidoException;
 
