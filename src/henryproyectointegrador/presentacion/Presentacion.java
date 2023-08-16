@@ -2,6 +2,8 @@ package henryproyectointegrador.presentacion;
 
 import henryproyectointegrador.domain.CategoriaGasto;
 import henryproyectointegrador.domain.Gasto;
+import henryproyectointegrador.interfaces.ISeguimientoGastos;
+import henryproyectointegrador.negocio.SeguimientoGastos;
 
 import java.util.Date;
 import java.util.List;
@@ -12,6 +14,7 @@ import static henryproyectointegrador.utils.ScannerInput.*;
 
 public class Presentacion {
     private static final GastoListPrinter gastoListPrinter = GastoListPrinter.getInstance();
+    private static final ISeguimientoGastos seguimientoGastos = SeguimientoGastos.getInstancia();
     private static Presentacion instancia;
 
     private Presentacion() {
@@ -39,10 +42,11 @@ public class Presentacion {
                 case "1": {
                     Menu menuAgregarGasto = this.crearMenuAgregarGasto();
                     Menu menuCategoria = this.crearMenuCategoria();
+                    Menu menuGuardarGasto = this.crearMenuGuardarGasto();
                     String menuAgregarGastoOpcionSeleccionada;
-                    double monto;
-                    CategoriaGasto categoriaGasto;
-                    Date fecha;
+                    double monto = 0;
+                    CategoriaGasto categoriaGasto = null;
+                    Date fecha = new Date();
                     do {
                         System.out.println("\n========= Menu - Agregar gasto ===========");
                         menuAgregarGastoOpcionSeleccionada = menuAgregarGasto.mostrarMenu();
@@ -55,7 +59,8 @@ public class Presentacion {
                             case "2":
                                 System.out.println("\n---------- Asignar categoria ----------");
                                 String menuCategoriaOpcionSeleccionada = menuCategoria.mostrarMenu();
-                                System.out.println("menuCategoriaOpcionSeleccionada = " + menuCategoriaOpcionSeleccionada);
+                                categoriaGasto = obtenerCategoriaGasto(menuCategoriaOpcionSeleccionada);
+                                System.out.printf("Categoria asignada: %s\n", categoriaGasto);
                                 break;
                             case "3":
                                 System.out.println("\n---------- Asignar fecha ----------");
@@ -64,6 +69,15 @@ public class Presentacion {
                                 break;
                             case "4":
                                 System.out.println("\n---------- Guardar gasto ----------");
+                                System.out.println("Datos del gasto a guardar");
+                                System.out.println("Monto: " + monto);
+                                System.out.println("Categoria: " + categoriaGasto);
+                                System.out.println("Fecha: " + fecha);
+                                System.out.println("¿Desea guardar el gasto? (1. Si / 2. No)");
+                                String menuGuardarGastoOpcionSeleccionada = menuGuardarGasto.mostrarMenu();
+                                if (menuGuardarGastoOpcionSeleccionada.equals("1")) {
+                                    seguimientoGastos.agregarGasto(monto, categoriaGasto, fecha);
+                                }
                                 break;
                             case "5":
                                 break;
@@ -104,5 +118,20 @@ public class Presentacion {
         opcionesValidas.put("1", opcion1Descripcion);
         opcionesValidas.put("2", opcion2Descripcion);
         return new Menu(opcionesValidas);
+    }
+
+    private Menu crearMenuGuardarGasto() {
+        Map<String, String> opcionesValidas = new TreeMap<>();
+        opcionesValidas.put("1", "1. Guardar");
+        opcionesValidas.put("2", "2. Cancelar");
+        return new Menu(opcionesValidas);
+    }
+
+    private CategoriaGasto obtenerCategoriaGasto(String opcionSeleccionada) {
+        return switch (opcionSeleccionada) {
+            case "1" -> CategoriaGasto.COMPRAS;
+            case "2" -> CategoriaGasto.PAGO_SERVICIOS;
+            default -> null;
+        };
     }
 }
