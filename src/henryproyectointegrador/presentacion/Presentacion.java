@@ -39,7 +39,7 @@ public class Presentacion {
                 case "1" -> {
                     Menu menuAgregarGasto = this.crearMenuAgregarGasto();
                     Menu menuCategoria = this.crearMenuCategoria();
-                    Menu menuGuardarGasto = this.crearMenuGuardarGasto();
+                    Menu menuConfirmarGuardar = this.crearMenuConfirmar();
                     String menuAgregarGastoOpcionSeleccionada;
                     double monto = 0;
                     CategoriaGasto categoriaGasto = null;
@@ -71,9 +71,10 @@ public class Presentacion {
                                 System.out.println("Categoria: " + categoriaGasto);
                                 System.out.println("Fecha: " + fecha);
                                 System.out.println("¿Desea guardar el gasto? (1. Si / 5. No)");
-                                String menuGuardarGastoOpcionSeleccionada = menuGuardarGasto.mostrarMenu();
+                                String menuGuardarGastoOpcionSeleccionada = menuConfirmarGuardar.mostrarMenu();
                                 if (menuGuardarGastoOpcionSeleccionada.equals("1")) {
                                     seguimientoGastos.agregarGasto(monto, categoriaGasto, fecha);
+                                    System.out.println("Gasto guardado correctamente");
                                 }
                             }
                             case "5" -> {
@@ -81,11 +82,77 @@ public class Presentacion {
                         }
                     } while (!menuAgregarGastoOpcionSeleccionada.equals("5"));
                 }
-                case "2" -> System.out.println("Modificar gasto");
+                case "2" -> {
+                    Menu menuModificarGasto = this.crearMenuModificarGasto();
+                    Menu menuCategoria = this.crearMenuCategoria();
+                    Menu menuConfirmarActualizacion = this.crearMenuConfirmar();
+                    Menu subMenuModificarGasto = this.crearSubMenuModificarGasto();
+                    String menuModificarGastoOpcionSeleccionada;
+                    do {
+                        System.out.println("\n========= Menu - Modificar gasto ===========");
+                        menuModificarGastoOpcionSeleccionada = menuModificarGasto.mostrarMenu();
+                        switch (menuModificarGastoOpcionSeleccionada) {
+                            case "1" -> {
+                                List<Gasto> gastos = seguimientoGastos.obtenerGastos();
+                                print(gastos, Gasto.class);
+                            }
+                            case "2" -> {
+                                int idGasto = solicitarInt("Ingresa el id del gasto a modificar: ");
+                                Gasto gasto = seguimientoGastos.obtenerGasto(idGasto);
+                                System.out.printf("Gasto a modificar: %s\n", gasto);
+                                double monto = gasto.getMonto();
+                                CategoriaGasto categoriaGasto = gasto.getCategoriaGasto();
+                                Date fecha = gasto.getFecha();
+                                String menuModificarGastoSubMenuOpcionSeleccionada;
+                                String menuConfirmarActualizacionOpcionSeleccionada;
+                                boolean salirSubmenuModificarGasto = false;
+                                do {
+                                    menuModificarGastoSubMenuOpcionSeleccionada = subMenuModificarGasto.mostrarMenu();
+                                    switch (menuModificarGastoSubMenuOpcionSeleccionada) {
+                                        case "1" -> {
+                                            System.out.println("\n---------- Actualizar gasto ----------");
+                                            monto = solicitarDouble("Ingresa el nuevo monto del gasto: ");
+                                            System.out.printf("Monto asignado: %.2f\n", monto);
+                                        }
+                                        case "2" -> {
+                                            System.out.println("\n---------- Actualizar categoria ----------");
+                                            String menuCategoriaOpcionSeleccionada = menuCategoria.mostrarMenu();
+                                            categoriaGasto = obtenerCategoriaGasto(menuCategoriaOpcionSeleccionada);
+                                            System.out.printf("Categoria asignada: %s\n", categoriaGasto);
+                                        }
+                                        case "3" -> {
+                                            System.out.println("\n---------- Actualizar fecha ----------");
+                                            fecha = solicitarFecha("Ingresa la nueva fecha del gasto siguiendo el formato dd/MM/yyyy: ");
+                                            System.out.printf("Fecha asignada: %s\n", fecha);
+                                        }
+                                        case "4" -> {
+                                            System.out.println("\n---------- Guardar cambios  ----------");
+                                            System.out.println("Datos del gasto a actualizar");
+                                            System.out.println("Monto: " + monto);
+                                            System.out.println("Categoria: " + categoriaGasto);
+                                            System.out.println("Fecha: " + fecha);
+                                            System.out.println("¿Desea actualizar el gasto? (1. Si / 5. No)");
+                                            menuConfirmarActualizacionOpcionSeleccionada = menuConfirmarActualizacion.mostrarMenu();
+                                            if (menuConfirmarActualizacionOpcionSeleccionada.equals("1")) {
+                                                seguimientoGastos.modificarGasto(idGasto, monto, categoriaGasto, fecha);
+                                                salirSubmenuModificarGasto = true;
+                                                System.out.println("Gasto actualizado correctamente");
+                                            }
+                                        }
+                                        case "5" -> salirSubmenuModificarGasto = true;
+                                    }
+                                } while (!salirSubmenuModificarGasto);
+                            }
+                            case "5" -> {
+
+                            }
+                        }
+                    } while (!menuModificarGastoOpcionSeleccionada.equals("5"));
+                }
 
                 case "3" -> {
                     Menu menuEliminarGasto = this.crearMenuEliminarGasto();
-                    Menu menuConfirmarEliminarGasto = this.crearMenuConfirmarEliminarGasto();
+                    Menu menuConfirmarEliminarGasto = this.crearMenuConfirmar();
                     String menuEliminarGastoOpcionSeleccionada;
                     do {
                         System.out.println("\n========= Menu - Eliminar gasto ===========");
@@ -175,7 +242,7 @@ public class Presentacion {
         return new Menu(opcionesValidas);
     }
 
-    private Menu crearMenuGuardarGasto() {
+    private Menu crearMenuConfirmar() {
         Map<String, String> opcionesValidas = new TreeMap<>();
         opcionesValidas.put("1", "1. Si");
         opcionesValidas.put("5", "5. No");
@@ -190,6 +257,28 @@ public class Presentacion {
         };
     }
 
+    private Menu crearMenuModificarGasto() {
+        Map<String, String> opcionesValidas = new TreeMap<>();
+        opcionesValidas.put("1", "1. Mostrar gastos");
+        opcionesValidas.put("2", "2. Seleccionar id del gasto a modificar");
+        opcionesValidas.put("5", "5. Volver al menu principal");
+        return new Menu(opcionesValidas);
+    }
+
+    private Menu crearSubMenuModificarGasto() {
+        Map<String, String> opcionesValidas = new TreeMap<>();
+        opcionesValidas.put("1", "1. Actualizar monto");
+        opcionesValidas.put("2", "2. Actualizar categoria");
+        opcionesValidas.put("3", "3. Actualizar fecha");
+        opcionesValidas.put("4", "4. Guardar cambios");
+        opcionesValidas.put("5", "5. Volver al menu principal");
+        return new Menu(opcionesValidas);
+    }
+
+    private void print(List<? extends Gasto> list, Class clase) {
+        gastoListPrinter.print(list, clase);
+    }
+
     private Menu crearMenuEliminarGasto() {
         Map<String, String> opcionesValidas = new TreeMap<>();
         opcionesValidas.put("1", "1. Mostrar gastos");
@@ -198,20 +287,9 @@ public class Presentacion {
         return new Menu(opcionesValidas);
     }
 
-    private Menu crearMenuConfirmarEliminarGasto() {
-        Map<String, String> opcionesValidas = new TreeMap<>();
-        opcionesValidas.put("1", "1. Si");
-        opcionesValidas.put("5", "5. No");
-        return new Menu(opcionesValidas);
-    }
-
-    private void print(List<? extends Gasto> list, Class clase) {
-        gastoListPrinter.print(list, clase);
-    }
-
     private Menu crearMenuMostrarGastos() {
         Map<String, String> opcionesValidas = new TreeMap<>();
-        opcionesValidas.put("1", "1. Mostrar gastos");
+        opcionesValidas.put("1", "1. Mostrar todos los gastos");
         opcionesValidas.put("5", "5. Volver al menu principal");
         return new Menu(opcionesValidas);
     }
