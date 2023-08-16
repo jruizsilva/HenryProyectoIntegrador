@@ -1,7 +1,10 @@
 package henryproyectointegrador.utils;
 
+import henryproyectointegrador.excepciones.FechaIngresadaInvalidaException;
 import henryproyectointegrador.excepciones.MontoIngresadoInvalidoException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 public class ScannerValidator {
@@ -29,6 +32,16 @@ public class ScannerValidator {
         } catch (NumberFormatException e) {
             String msg = String.format("El dato ingresado \"%s\" no es valido. Intente nuevamente", entrada);
             throw new MontoIngresadoInvalidoException(msg);
+        }
+    }
+
+    public static boolean isValidDate(String entrada, SimpleDateFormat format) throws FechaIngresadaInvalidaException {
+        try {
+            format.parse(entrada);
+            return true;
+        } catch (ParseException e) {
+            String msg = String.format("El dato ingresado \"%s\" no es valido. Intente nuevamente", entrada);
+            throw new FechaIngresadaInvalidaException(msg);
         }
     }
 }
