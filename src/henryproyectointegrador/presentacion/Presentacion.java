@@ -30,42 +30,54 @@ public class Presentacion {
 
     public void initConsoleMenu() {
         Menu menuPrincipal = this.crearMenuPrincipal();
-        String menuPrincipalOpcionSeleccionada = menuPrincipal.mostrarMenu();
+        String menuPrincipalOpcionSeleccionada;
 
-        switch (menuPrincipalOpcionSeleccionada) {
-            case "1": {
-                System.out.println("\nOpcion seleccionada \"1\" - Agregar gasto");
-                Menu menuAgregarGasto = this.crearMenuAgregarGasto();
-                Menu menuCategoria = this.crearMenuCategoria();
-                String menuAgregarGastoOpcionSeleccionada = menuAgregarGasto.mostrarMenu();
-                double monto;
-                CategoriaGasto categoriaGasto;
-                Date fecha;
+        do {
+            System.out.println("\n========= Menu principal ===========");
+            menuPrincipalOpcionSeleccionada = menuPrincipal.mostrarMenu();
+            switch (menuPrincipalOpcionSeleccionada) {
+                case "1": {
+                    Menu menuAgregarGasto = this.crearMenuAgregarGasto();
+                    Menu menuCategoria = this.crearMenuCategoria();
+                    String menuAgregarGastoOpcionSeleccionada;
+                    double monto;
+                    CategoriaGasto categoriaGasto;
+                    Date fecha;
+                    do {
+                        System.out.println("\n========= Menu - Agregar gasto ===========");
+                        menuAgregarGastoOpcionSeleccionada = menuAgregarGasto.mostrarMenu();
+                        switch (menuAgregarGastoOpcionSeleccionada) {
+                            case "1":
+                                System.out.println("\n---------- Asignar gasto ----------");
+                                monto = solicitarDouble("Ingresa el monto del gasto: ");
+                                System.out.printf("Monto asignado: %.2f\n", monto);
+                                break;
+                            case "2":
+                                System.out.println("\n---------- Asignar categoria ----------");
+                                String menuCategoriaOpcionSeleccionada = menuCategoria.mostrarMenu();
+                                System.out.println("menuCategoriaOpcionSeleccionada = " + menuCategoriaOpcionSeleccionada);
+                                break;
+                            case "3":
+                                System.out.println("\n---------- Asignar fecha ----------");
+                                fecha = solicitarFecha("Ingresa la fecha del gasto siguiendo el formato dd/MM/yyyy: ");
+                                System.out.printf("Fecha asignada: %s\n", fecha);
+                                break;
+                            case "4":
+                                System.out.println("\n---------- Guardar gasto ----------");
+                                break;
+                            case "5":
+                                break;
+                        }
+                    } while (!menuAgregarGastoOpcionSeleccionada.equals("5"));
 
-                switch (menuAgregarGastoOpcionSeleccionada) {
-                    case "1":
-                        System.out.println("\nOpcion seleccionada \"1\" - Asignar gasto");
-                        monto = solicitarDouble("Ingresa el monto del gasto: ");
-                        System.out.printf("Monto asignado: %.2f\n", monto);
-                        break;
-                    case "2":
-                        System.out.println("\nOpcion seleccionada \"2\" - Asignar categoria");
-                    case "3":
-                        System.out.println("\nOpcion seleccionada \"3\" - Asignar fecha");
-                        fecha = solicitarFecha("Ingresa la fecha del gasto siguiendo el formato dd/MM/yyyy: ");
-                        System.out.printf("Fecha asignada: %s\n", fecha);
+                    break;
                 }
-
-                break;
+                case "5": {
+                    cerrarScanner();
+                    break;
+                }
             }
-            case "5": {
-                cerrarScanner();
-                break;
-            }
-            default:
-                System.out.println("Opcion no valida");
-                break;
-        }
+        } while (!menuPrincipalOpcionSeleccionada.equals("5"));
     }
 
     private Menu crearMenuPrincipal() {
@@ -87,8 +99,10 @@ public class Presentacion {
 
     private Menu crearMenuCategoria() {
         Map<String, String> opcionesValidas = new TreeMap<>();
-        opcionesValidas.put("1", String.valueOf(CategoriaGasto.COMPRAS));
-        opcionesValidas.put("2", String.valueOf(CategoriaGasto.PAGO_SERVICIOS));
+        String opcion1Descripcion = String.format("1. %s", CategoriaGasto.COMPRAS);
+        String opcion2Descripcion = String.format("2. %s", CategoriaGasto.PAGO_SERVICIOS);
+        opcionesValidas.put("1", opcion1Descripcion);
+        opcionesValidas.put("2", opcion2Descripcion);
         return new Menu(opcionesValidas);
     }
 }
