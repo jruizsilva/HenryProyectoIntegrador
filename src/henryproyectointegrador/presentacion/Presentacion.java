@@ -28,6 +28,7 @@ public class Presentacion {
     }
 
     public void initConsoleMenu() {
+        this.agregarGastosDePrueba();
         Menu menuPrincipal = this.crearMenuPrincipal();
         Menu menuMostrarGastos = this.crearMenuMostrarGastos();
         String menuPrincipalOpcionSeleccionada;
@@ -103,6 +104,18 @@ public class Presentacion {
                 case "5" -> cerrarScanner();
             }
         } while (!menuPrincipalOpcionSeleccionada.equals("5"));
+    }
+
+    private void agregarGastosDePrueba() {
+        seguimientoGastos.agregarGasto(100, CategoriaGasto.COMPRAS, new Date());
+        seguimientoGastos.agregarGasto(200, CategoriaGasto.PAGO_SERVICIOS, new Date());
+        seguimientoGastos.agregarGasto(300, CategoriaGasto.COMPRAS, new Date());
+        seguimientoGastos.agregarGasto(400, CategoriaGasto.PAGO_SERVICIOS, new Date());
+        seguimientoGastos.agregarGasto(500, CategoriaGasto.COMPRAS, new Date());
+        seguimientoGastos.agregarGasto(600, CategoriaGasto.PAGO_SERVICIOS, new Date());
+        seguimientoGastos.agregarGasto(700, CategoriaGasto.COMPRAS, new Date());
+        seguimientoGastos.agregarGasto(800, CategoriaGasto.PAGO_SERVICIOS, new Date());
+        seguimientoGastos.agregarGasto(900, CategoriaGasto.COMPRAS, new Date());
     }
 
     private Menu crearMenuPrincipal() {
