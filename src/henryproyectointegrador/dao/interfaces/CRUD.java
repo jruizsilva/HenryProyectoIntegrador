@@ -5,7 +5,7 @@ import java.util.List;
 public interface CRUD<TDto, NId> {
     void insert(TDto dataDto);
 
-    void update(TDto dataDto);
+    void update(NId id, TDto dataDto);
 
     void deleteById(NId id);
 

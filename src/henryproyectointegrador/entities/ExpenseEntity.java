@@ -1,23 +1,18 @@
 package henryproyectointegrador.entities;
 
+import henryproyectointegrador.dao.dto.ExpenseDto;
+
 import java.util.Date;
 
-public class ExpenseEntity {
-    private static int instanciasCreadas = 0;
+public class ExpenseEntity extends ExpenseDto {
     private final int id_gasto;
     private double monto;
-    private CategoriaGasto categoriaGasto;
+    private long categoriaId;
     private Date fecha;
 
-    public ExpenseEntity(double monto, CategoriaGasto categoriaGasto, Date fecha) {
-        this();
-        this.monto = monto;
-        this.categoriaGasto = categoriaGasto;
-        this.fecha = fecha;
-    }
-
-    public ExpenseEntity() {
-        this.id_gasto = ++instanciasCreadas;
+    public ExpenseEntity(int id_gasto, double monto, long categoriaId, Date fecha) {
+        super(monto, categoriaId, fecha);
+        this.id_gasto = id_gasto;
     }
 
     public int getId_gasto() {
@@ -32,12 +27,13 @@ public class ExpenseEntity {
         this.monto = monto;
     }
 
-    public CategoriaGasto getCategoriaGasto() {
-        return this.categoriaGasto;
+    @Override
+    public long getCategoriaId() {
+        return this.categoriaId;
     }
 
-    public void setCategoriaGasto(CategoriaGasto categoriaGasto) {
-        this.categoriaGasto = categoriaGasto;
+    public void setCategoriaId(long categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
     public Date getFecha() {
@@ -50,10 +46,11 @@ public class ExpenseEntity {
 
     @Override
     public String toString() {
-        return "Gasto{" +
+        return "ExpenseEntity{" +
                 "id_gasto=" + id_gasto +
                 ", monto=" + monto +
-                ", categoriaGasto=" + categoriaGasto +
-                '}';
+                ", categoriaId=" + categoriaId +
+                ", fecha=" + fecha +
+                "} " + super.toString();
     }
 }

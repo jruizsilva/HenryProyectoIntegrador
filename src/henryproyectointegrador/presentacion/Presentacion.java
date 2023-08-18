@@ -2,8 +2,6 @@ package henryproyectointegrador.presentacion;
 
 import henryproyectointegrador.entities.CategoriaGasto;
 import henryproyectointegrador.entities.ExpenseEntity;
-import henryproyectointegrador.interfaces.ISeguimientoGastos;
-import henryproyectointegrador.negocio.SeguimientoGastos;
 
 import java.util.Date;
 import java.util.List;

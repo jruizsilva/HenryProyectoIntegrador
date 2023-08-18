@@ -4,16 +4,19 @@ import henryproyectointegrador.dao.ExpenseDao;
 import henryproyectointegrador.dao.dto.ExpenseDto;
 import henryproyectointegrador.entities.ExpenseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseDaoImpl implements ExpenseDao {
+    private final List<ExpenseEntity> expenseEntityList = new ArrayList<>();
+
     @Override
     public void insert(ExpenseDto dataDto) {
 
     }
 
     @Override
-    public void update(ExpenseDto dataDto) {
+    public void update(Long aLong, ExpenseDto dataDto) {
 
     }
 
