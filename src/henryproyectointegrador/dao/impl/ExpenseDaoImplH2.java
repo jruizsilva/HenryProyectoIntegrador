@@ -103,7 +103,28 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
 
     @Override
     public ExpenseDto findById(Long aLong) {
-        return null;
+        Connection connection = ConnectionH2.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet;
+        ExpenseDto expenseDto = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID);
+            preparedStatement.setLong(1, aLong);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                double monto = resultSet.getDouble("monto");
+                long categoria_id = resultSet.getLong("categoria_id");
+                Date fecha = resultSet.getDate("fecha");
+                expenseDto = new ExpenseDto(monto, categoria_id, fecha);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionH2.close(connection);
+            ConnectionH2.close(preparedStatement);
+        }
+        return expenseDto;
     }
 
     @Override
