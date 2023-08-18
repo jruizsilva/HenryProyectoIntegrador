@@ -62,7 +62,18 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
 
     @Override
     public int deleteById(Long id) {
-        int rowsAffected = 0;
+        int rowsAffected;
+        Connection connection = ConnectionH2.getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(SQL_DELETE);
+            rowsAffected = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionH2.close(connection);
+            ConnectionH2.close(preparedStatement);
+        }
 
         return rowsAffected;
     }
