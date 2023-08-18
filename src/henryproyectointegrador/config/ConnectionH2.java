@@ -1,21 +1,44 @@
 package henryproyectointegrador.config;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ConnectionH2 {
-    Connection conn;
+    private static final String JDBC_URL = "jdbc:h2:~/expenses-app";
+    private static final String USER = "sa";
+    private static final String PASSWORD = "";
 
-    {
+    public static Connection createConnection() {
+        Connection connection;
         try {
-            conn = DriverManager.getConnection("jdbc:h2:~/test");
+            connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            System.out.println("H2 database is connected");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return connection;
+    }
+
+    public static void close(Connection connection) {
+        try {
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Connection getConnection() {
-        return conn;
+    public static void close(PreparedStatement stmt) {
+        try {
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void close(ResultSet rs) {
+        try {
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
