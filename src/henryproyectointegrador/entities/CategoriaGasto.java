@@ -1,4 +1,4 @@
-package henryproyectointegrador.domain;
+package henryproyectointegrador.entities;
 
 public enum CategoriaGasto {
     COMPRAS,

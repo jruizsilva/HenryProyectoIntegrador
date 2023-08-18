@@ -1,6 +1,6 @@
 package henryproyectointegrador.presentacion;
 
-import henryproyectointegrador.domain.Gasto;
+import henryproyectointegrador.entities.ExpenseEntity;
 import henryproyectointegrador.utils.TableList;
 
 import java.lang.reflect.Field;
@@ -22,7 +22,7 @@ public class GastoListPrinter {
         return GastoListPrinter.gastoListPrinter;
     }
 
-    public void print(List<? extends Gasto> list, Class clase) {
+    public void print(List<? extends ExpenseEntity> list, Class clase) {
         Field[] fields = clase.getDeclaredFields();
         String[] fieldNames = Stream.of(fields)
                                     .filter(field -> !Modifier.isStatic(field.getModifiers()))

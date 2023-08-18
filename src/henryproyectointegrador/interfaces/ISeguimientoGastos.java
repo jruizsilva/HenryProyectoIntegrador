@@ -1,7 +1,7 @@
 package henryproyectointegrador.interfaces;
 
-import henryproyectointegrador.domain.CategoriaGasto;
-import henryproyectointegrador.domain.Gasto;
+import henryproyectointegrador.entities.CategoriaGasto;
+import henryproyectointegrador.entities.ExpenseEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -13,7 +13,7 @@ public interface ISeguimientoGastos {
 
     void modificarGasto(int id_gasto, double monto, CategoriaGasto categoriaGasto, Date fecha);
 
-    List<Gasto> obtenerGastos();
+    List<ExpenseEntity> obtenerGastos();
 
-    Gasto obtenerGasto(int id_gasto);
+    ExpenseEntity obtenerGasto(int id_gasto);
 }

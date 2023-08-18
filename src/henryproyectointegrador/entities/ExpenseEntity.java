@@ -1,22 +1,22 @@
-package henryproyectointegrador.domain;
+package henryproyectointegrador.entities;
 
 import java.util.Date;
 
-public class Gasto {
+public class ExpenseEntity {
     private static int instanciasCreadas = 0;
     private final int id_gasto;
     private double monto;
     private CategoriaGasto categoriaGasto;
     private Date fecha;
 
-    public Gasto(double monto, CategoriaGasto categoriaGasto, Date fecha) {
+    public ExpenseEntity(double monto, CategoriaGasto categoriaGasto, Date fecha) {
         this();
         this.monto = monto;
         this.categoriaGasto = categoriaGasto;
         this.fecha = fecha;
     }
 
-    public Gasto() {
+    public ExpenseEntity() {
         this.id_gasto = ++instanciasCreadas;
     }
 
