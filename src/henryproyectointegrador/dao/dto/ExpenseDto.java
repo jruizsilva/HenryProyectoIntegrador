@@ -17,7 +17,7 @@ public class ExpenseDto {
         return this.monto;
     }
 
-    public long getCategoriaId() {
+    public long getCategoria_id() {
         return this.categoriaId;
     }
 

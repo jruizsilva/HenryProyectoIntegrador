@@ -7,7 +7,7 @@ public class ConnectionH2 {
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
-    public static Connection createConnection() {
+    public static Connection getConnection() {
         Connection connection;
         try {
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
@@ -20,7 +20,9 @@ public class ConnectionH2 {
 
     public static void close(Connection connection) {
         try {
-            connection.close();
+            if (connection != null) {
+                connection.close();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -28,7 +30,9 @@ public class ConnectionH2 {
 
     public static void close(PreparedStatement stmt) {
         try {
-            stmt.close();
+            if (stmt != null) {
+                stmt.close();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -36,7 +40,9 @@ public class ConnectionH2 {
 
     public static void close(ResultSet rs) {
         try {
-            rs.close();
+            if (rs != null) {
+                rs.close();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

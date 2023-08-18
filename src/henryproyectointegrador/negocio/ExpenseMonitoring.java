@@ -1,14 +1,14 @@
 package henryproyectointegrador.negocio;
 
 import henryproyectointegrador.dao.dto.ExpenseDto;
-import henryproyectointegrador.dao.impl.ExpenseDaoImpl;
+import henryproyectointegrador.dao.impl.ExpenseDaoImplH2;
 import henryproyectointegrador.interfaces.IExpenseMonitoring;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseMonitoring implements IExpenseMonitoring {
-    private final ExpenseDaoImpl expenseDao = new ExpenseDaoImpl();
+    private final ExpenseDaoImplH2 expenseDao = new ExpenseDaoImplH2();
     private final List<ExpenseDto> expenseDtoList = new ArrayList<>();
 
     public ExpenseMonitoring() {

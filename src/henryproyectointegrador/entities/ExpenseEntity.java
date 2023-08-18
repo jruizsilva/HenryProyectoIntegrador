@@ -7,11 +7,11 @@ import java.util.Date;
 public class ExpenseEntity extends ExpenseDto {
     private final int id_gasto;
     private double monto;
-    private long categoriaId;
+    private long categoria_id;
     private Date fecha;
 
-    public ExpenseEntity(int id_gasto, double monto, long categoriaId, Date fecha) {
-        super(monto, categoriaId, fecha);
+    public ExpenseEntity(int id_gasto, double monto, long categoria_id, Date fecha) {
+        super(monto, categoria_id, fecha);
         this.id_gasto = id_gasto;
     }
 
@@ -28,12 +28,12 @@ public class ExpenseEntity extends ExpenseDto {
     }
 
     @Override
-    public long getCategoriaId() {
-        return this.categoriaId;
+    public long getCategoria_id() {
+        return this.categoria_id;
     }
 
-    public void setCategoriaId(long categoriaId) {
-        this.categoriaId = categoriaId;
+    public void setCategoria_id(long categoria_id) {
+        this.categoria_id = categoria_id;
     }
 
     public Date getFecha() {
@@ -49,7 +49,7 @@ public class ExpenseEntity extends ExpenseDto {
         return "ExpenseEntity{" +
                 "id_gasto=" + id_gasto +
                 ", monto=" + monto +
-                ", categoriaId=" + categoriaId +
+                ", categoriaId=" + categoria_id +
                 ", fecha=" + fecha +
                 "} " + super.toString();
     }

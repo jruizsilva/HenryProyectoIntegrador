@@ -3,11 +3,11 @@ package henryproyectointegrador.dao.interfaces;
 import java.util.List;
 
 public interface CRUD<TDto, NId> {
-    void insert(TDto dataDto);
+    int insert(TDto dataDto);
 
-    void update(NId id, TDto dataDto);
+    int update(NId id, TDto dataDto);
 
-    void deleteById(NId id);
+    int deleteById(NId id);
 
     List<TDto> findAll();
 
