@@ -98,9 +98,9 @@ public class Presentacion {
                                 int idExpense = solicitarInt("Ingresa el id del gasto a modificar: ");
                                 ExpenseEntity expense = seguimientoGastos.obtenerGasto(idExpense);
                                 System.out.printf("Gasto a modificar: %s\n", expense);
-                                double amount = expense.getMonto();
+                                double amount = expense.getAmount();
                                 CategoriaGasto category = expense.getCategoriaGasto();
-                                Date date = expense.getFecha();
+                                Date date = expense.getDate();
                                 String menuModificarGastoSubMenuOpcionSeleccionada;
                                 String menuConfirmarActualizacionOpcionSeleccionada;
                                 boolean salirSubmenuModificarGasto = false;

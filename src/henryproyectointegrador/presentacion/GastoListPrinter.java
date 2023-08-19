@@ -31,10 +31,10 @@ public class GastoListPrinter {
 
         TableList tl = new TableList(fieldNames).withUnicode(true);
         list.forEach(gasto -> {
-            String id_gasto = String.valueOf(gasto.getId_gasto());
-            String monto = String.valueOf(gasto.getMonto());
+            String id_gasto = String.valueOf(gasto.getId());
+            String monto = String.valueOf(gasto.getAmount());
             String categoriaGasto = String.valueOf(gasto.getCategoriaGasto());
-            String fecha = String.valueOf(gasto.getFecha());
+            String fecha = String.valueOf(gasto.getDate());
             tl.addRow(id_gasto, monto, categoriaGasto, fecha);
         });
         tl.print();

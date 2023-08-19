@@ -1,56 +1,68 @@
 package henryproyectointegrador.entities;
 
-import henryproyectointegrador.dao.dto.ExpenseDto;
-
 import java.util.Date;
 
-public class ExpenseEntity extends ExpenseDto {
-    private final int id_gasto;
-    private double monto;
-    private long categoria_id;
-    private Date fecha;
+public class ExpenseEntity {
+    private int id;
+    private double amount;
+    private long category_id;
+    private Date date;
 
-    public ExpenseEntity(int id_gasto, double monto, long categoria_id, Date fecha) {
-        super(monto, categoria_id, fecha);
-        this.id_gasto = id_gasto;
+    private ExpenseEntity(double amount) {
+        this.amount = amount;
     }
 
-    public int getId_gasto() {
-        return this.id_gasto;
+    public static ExpenseEntity Make(double amount) {
+        return new ExpenseEntity(amount);
     }
 
-    public double getMonto() {
-        return this.monto;
+    public ExpenseEntity Build() {
+        return this;
     }
 
-    public void setMonto(double monto) {
-        this.monto = monto;
+    public long getId() {
+        return this.id;
     }
 
-    @Override
-    public long getCategoria_id() {
-        return this.categoria_id;
+    public ExpenseEntity setId(int id) {
+        this.id = id;
+        return this;
     }
 
-    public void setCategoria_id(long categoria_id) {
-        this.categoria_id = categoria_id;
+    public double getAmount() {
+        return this.amount;
     }
 
-    public Date getFecha() {
-        return this.fecha;
+    public ExpenseEntity setAmount(double amount) {
+        this.amount = amount;
+        return this;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public long getCategory_id() {
+        return this.category_id;
+    }
+
+    public ExpenseEntity setCategory_id(long category_id) {
+        this.category_id = category_id;
+        return this;
+    }
+
+    public Date getDate() {
+        return this.date;
+    }
+
+    public ExpenseEntity setDate(Date date) {
+        this.date = date;
+        return this;
     }
 
     @Override
     public String toString() {
         return "ExpenseEntity{" +
-                "id_gasto=" + id_gasto +
-                ", monto=" + monto +
-                ", categoriaId=" + categoria_id +
-                ", fecha=" + fecha +
-                "} " + super.toString();
+                "id_gasto=" + id +
+                ", monto=" + amount +
+                ", id_category=" + category_id +
+                ", fecha=" + date +
+                '}';
     }
 }

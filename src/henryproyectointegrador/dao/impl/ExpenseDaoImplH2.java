@@ -42,9 +42,9 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
         try {
 
             preparedStatement = connection.prepareStatement(SQL_UPDATE);
-            preparedStatement.setDouble(1, dataDto.getMonto());
-            preparedStatement.setLong(2, dataDto.getCategoria_id());
-            preparedStatement.setDate(3, (Date) dataDto.getFecha());
+            preparedStatement.setDouble(1, dataDto.getAmount());
+            preparedStatement.setLong(2, dataDto.getCategory_id());
+            preparedStatement.setDate(3, (Date) dataDto.getDate());
             preparedStatement.setLong(4, id);
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException e) {
