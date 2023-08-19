@@ -1,6 +1,6 @@
 package henryproyectointegrador.presentacion;
 
-import henryproyectointegrador.entities.ExpenseEntity;
+import henryproyectointegrador.dao.dto.ExpenseDto;
 import henryproyectointegrador.utils.TableList;
 
 import java.lang.reflect.Field;
@@ -22,7 +22,7 @@ public class GastoListPrinter {
         return GastoListPrinter.gastoListPrinter;
     }
 
-    public void print(List<? extends ExpenseEntity> list, Class clase) {
+    public void print(List<ExpenseDto> list, Class clase) {
         Field[] fields = clase.getDeclaredFields();
         String[] fieldNames = Stream.of(fields)
                                     .filter(field -> !Modifier.isStatic(field.getModifiers()))
@@ -31,9 +31,9 @@ public class GastoListPrinter {
 
         TableList tl = new TableList(fieldNames).withUnicode(true);
         list.forEach(gasto -> {
-            String id_gasto = String.valueOf(gasto.getId());
+            String id_gasto = String.valueOf(gasto.getId_expense());
             String monto = String.valueOf(gasto.getAmount());
-            String categoriaGasto = String.valueOf(gasto.getCategoriaGasto());
+            String categoriaGasto = String.valueOf(gasto.getCategory_id());
             String fecha = String.valueOf(gasto.getDate());
             tl.addRow(id_gasto, monto, categoriaGasto, fecha);
         });

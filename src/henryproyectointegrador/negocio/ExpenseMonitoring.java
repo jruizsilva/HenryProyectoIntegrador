@@ -22,7 +22,7 @@ public class ExpenseMonitoring implements IExpenseMonitoring {
     }
 
     @Override
-    public ExpenseDto getExpenseById(long id) {
+    public ExpenseDto getExpenseById(int id) {
         return expenseDao.findById(id);
     }
 
@@ -32,12 +32,12 @@ public class ExpenseMonitoring implements IExpenseMonitoring {
     }
 
     @Override
-    public void updateExpense(long id, ExpenseDto expenseDto) {
+    public void updateExpense(int id, ExpenseDto expenseDto) {
         expenseDao.update(id, expenseDto);
     }
 
     @Override
-    public void deleteExpense(long id) {
+    public void deleteExpense(int id) {
         expenseDao.deleteById(id);
     }
 

@@ -3,9 +3,9 @@ package henryproyectointegrador.dao.dto;
 import java.util.Date;
 
 public class ExpenseDto {
-    private long id;
+    private int id_expense;
     private double amount;
-    private long category_id;
+    private int category_id;
     private Date date;
 
     private ExpenseDto(double amount) {
@@ -20,12 +20,12 @@ public class ExpenseDto {
         return this;
     }
 
-    public long getId() {
-        return this.id;
+    public int getId_expense() {
+        return this.id_expense;
     }
 
-    public ExpenseDto setId(long id) {
-        this.id = id;
+    public ExpenseDto setId_expense(int id_expense) {
+        this.id_expense = id_expense;
         return this;
     }
 
@@ -38,11 +38,11 @@ public class ExpenseDto {
         return this;
     }
 
-    public long getCategory_id() {
+    public int getCategory_id() {
         return this.category_id;
     }
 
-    public ExpenseDto setCategory_id(long category_id) {
+    public ExpenseDto setCategory_id(int category_id) {
         this.category_id = category_id;
         return this;
     }
@@ -59,7 +59,7 @@ public class ExpenseDto {
     @Override
     public String toString() {
         return "ExpenseDto{" +
-                "id=" + id +
+                "id=" + id_expense +
                 ", amount=" + amount +
                 ", category_id=" + category_id +
                 ", date=" + date +

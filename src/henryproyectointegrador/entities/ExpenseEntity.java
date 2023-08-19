@@ -5,7 +5,7 @@ import java.util.Date;
 public class ExpenseEntity {
     private int id;
     private double amount;
-    private long category_id;
+    private int category_id;
     private Date date;
 
     private ExpenseEntity(double amount) {
@@ -20,7 +20,7 @@ public class ExpenseEntity {
         return this;
     }
 
-    public long getId() {
+    public int getId() {
         return this.id;
     }
 
@@ -38,11 +38,11 @@ public class ExpenseEntity {
         return this;
     }
 
-    public long getCategory_id() {
+    public int getCategory_id() {
         return this.category_id;
     }
 
-    public ExpenseEntity setCategory_id(long category_id) {
+    public ExpenseEntity setCategory_id(int category_id) {
         this.category_id = category_id;
         return this;
     }

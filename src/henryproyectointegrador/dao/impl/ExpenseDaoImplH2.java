@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseDaoImplH2 implements ExpenseDao {
-    private static final String SQL_SELECT_ALL = "SELECT id_gasto, monto, categoria_id, fecha FROM expense";
-    private static final String SQL_INSERT = "INSERT INTO expense (monto, categoria_id, fecha) VALUES (?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE expense SET monto = ?, categoria_id = ?, fecha = ? WHERE id_gasto = ?";
-    private static final String SQL_DELETE = "DELETE FROM expense WHERE id_gasto = ?";
-    private static final String SQL_SELECT_BY_ID = "SELECT id_gasto, monto, categoria_id, fecha FROM expense WHERE id_gasto = ?";
+    private static final String SQL_SELECT_ALL = "SELECT id_expense, amount, id_category, date FROM EXPENSE";
+    private static final String SQL_SELECT_BY_ID = "SELECT id_expense, amount, id_category, date FROM EXPENSE WHERE id_expense = ?";
+    private static final String SQL_INSERT = "INSERT INTO EXPENSE (amount, id_category, date) VALUES (?, ?, ?)";
+    private static final String SQL_UPDATE = "UPDATE EXPENSE SET amount = ?, id_category = ?, date = ? WHERE id_expense = ?";
+    private static final String SQL_DELETE = "DELETE FROM EXPENSE WHERE id_expense = ?";
     private static final List<ExpenseEntity> expenseEntityList = new ArrayList<>();
 
     @Override
@@ -35,7 +35,7 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
     }
 
     @Override
-    public int update(Long id, ExpenseDto dataDto) {
+    public int update(int id, ExpenseDto dataDto) {
         int rowsAffected;
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
@@ -43,9 +43,9 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
 
             preparedStatement = connection.prepareStatement(SQL_UPDATE);
             preparedStatement.setDouble(1, dataDto.getAmount());
-            preparedStatement.setLong(2, dataDto.getCategory_id());
+            preparedStatement.setint(2, dataDto.getCategory_id());
             preparedStatement.setDate(3, (Date) dataDto.getDate());
-            preparedStatement.setLong(4, id);
+            preparedStatement.setint(4, id);
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -58,7 +58,7 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
     }
 
     @Override
-    public int deleteById(Long id) {
+    public int deleteById(int id) {
         int rowsAffected;
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
@@ -86,10 +86,15 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
             preparedStatement = connection.prepareStatement(SQL_SELECT_ALL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                double monto = resultSet.getDouble("monto");
-                long categoria_id = resultSet.getLong("categoria_id");
-                Date fecha = resultSet.getDate("fecha");
-                ExpenseDto expenseDto = new ExpenseDto(monto, categoria_id, fecha);
+                double monto = resultSet.getDouble("amount");
+                int id = resultSet.getInt("id_expense");
+                int category_id = resultSet.getInt("id_categoria");
+                Date date = resultSet.getDate("date");
+                ExpenseDto expenseDto = ExpenseDto.Make(monto)
+                                                  .setId_expense(id)
+                                                  .setCategory_id(category_id)
+                                                  .setDate(date)
+                                                  .Build();
                 expenseDtoList.add(expenseDto);
             }
         } catch (SQLException e) {
@@ -102,27 +107,33 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
     }
 
     @Override
-    public ExpenseDto findById(Long aLong) {
+    public ExpenseDto findById(int aint) {
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet;
+        ResultSet resultSet = null;
         ExpenseDto expenseDto = null;
 
         try {
             preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID);
-            preparedStatement.setLong(1, aLong);
+            preparedStatement.setint(1, aint);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                double monto = resultSet.getDouble("monto");
-                long categoria_id = resultSet.getLong("categoria_id");
-                Date fecha = resultSet.getDate("fecha");
-                expenseDto = new ExpenseDto(monto, categoria_id, fecha);
+                double monto = resultSet.getDouble("amount");
+                int id = resultSet.getInt("id_expense");
+                int category_id = resultSet.getInt("id_categoria");
+                Date date = resultSet.getDate("date");
+                expenseDto = ExpenseDto.Make(monto)
+                                       .setId_expense(id)
+                                       .setCategory_id(category_id)
+                                       .setDate(date)
+                                       .Build();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             ConnectionH2.close(connection);
             ConnectionH2.close(preparedStatement);
+            ConnectionH2.close(resultSet);
         }
         return expenseDto;
     }

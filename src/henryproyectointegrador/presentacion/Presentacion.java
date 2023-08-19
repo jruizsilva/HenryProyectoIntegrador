@@ -1,7 +1,9 @@
 package henryproyectointegrador.presentacion;
 
+import henryproyectointegrador.dao.dto.ExpenseDto;
 import henryproyectointegrador.entities.CategoriaGasto;
 import henryproyectointegrador.entities.ExpenseEntity;
+import henryproyectointegrador.negocio.ExpenseMonitoring;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +14,7 @@ import static henryproyectointegrador.utils.ScannerInput.*;
 
 public class Presentacion {
     private static final GastoListPrinter gastoListPrinter = GastoListPrinter.getInstance();
-    private static final ISeguimientoGastos seguimientoGastos = SeguimientoGastos.getInstancia();
+    private static final ExpenseMonitoring expenseMonitoring = new ExpenseMonitoring();
     private static Presentacion instancia;
 
     private Presentacion() {
@@ -40,7 +42,7 @@ public class Presentacion {
                     Menu menuConfirmarGuardar = this.crearMenuConfirmar();
                     String menuAgregarGastoOpcionSeleccionada;
                     double monto = 0;
-                    CategoriaGasto categoriaGasto = null;
+                    int categoriaGasto;
                     Date fecha = new Date();
                     do {
                         System.out.println("\n========= Menu - Agregar gasto ===========");
@@ -71,7 +73,11 @@ public class Presentacion {
                                 System.out.println("¿Desea guardar el gasto? (1. Si / 5. No)");
                                 String menuGuardarGastoOpcionSeleccionada = menuConfirmarGuardar.mostrarMenu();
                                 if (menuGuardarGastoOpcionSeleccionada.equals("1")) {
-                                    seguimientoGastos.agregarGasto(monto, categoriaGasto, fecha);
+                                    ExpenseDto expenseDto = ExpenseDto.Make(monto)
+                                                                      .setCategory_id(1)
+                                                                      .setDate(fecha)
+                                                                      .Build();
+                                    expenseMonitoring.insertExpense(expenseDto);
                                     System.out.println("Gasto guardado correctamente");
                                 }
                             }
@@ -91,15 +97,15 @@ public class Presentacion {
                         menuModificarGastoOpcionSeleccionada = menuModificarGasto.mostrarMenu();
                         switch (menuModificarGastoOpcionSeleccionada) {
                             case "1" -> {
-                                List<ExpenseEntity> gastos = seguimientoGastos.obtenerGastos();
+                                List<ExpenseDto> gastos = expenseMonitoring.getExpenses();
                                 print(gastos, ExpenseEntity.class);
                             }
                             case "2" -> {
                                 int idExpense = solicitarInt("Ingresa el id del gasto a modificar: ");
-                                ExpenseEntity expense = seguimientoGastos.obtenerGasto(idExpense);
+                                ExpenseDto expense = expenseMonitoring.getExpenseById(idExpense);
                                 System.out.printf("Gasto a modificar: %s\n", expense);
                                 double amount = expense.getAmount();
-                                CategoriaGasto category = expense.getCategoriaGasto();
+                                int categoryId = expense.getCategory_id();
                                 Date date = expense.getDate();
                                 String menuModificarGastoSubMenuOpcionSeleccionada;
                                 String menuConfirmarActualizacionOpcionSeleccionada;
@@ -115,8 +121,8 @@ public class Presentacion {
                                         case "2" -> {
                                             System.out.println("\n---------- Actualizar categoria ----------");
                                             String menuCategoriaOpcionSeleccionada = menuCategoria.mostrarMenu();
-                                            category = obtenerCategoriaGasto(menuCategoriaOpcionSeleccionada);
-                                            System.out.printf("Categoria asignada: %s\n", category);
+                                            categoryId = obtenerCategoriaGasto(menuCategoriaOpcionSeleccionada);
+                                            System.out.printf("Categoria asignada: %s\n", categoryId);
                                         }
                                         case "3" -> {
                                             System.out.println("\n---------- Actualizar fecha ----------");
@@ -127,12 +133,12 @@ public class Presentacion {
                                             System.out.println("\n---------- Guardar cambios  ----------");
                                             System.out.println("Datos del gasto a actualizar");
                                             System.out.println("Monto: " + amount);
-                                            System.out.println("Categoria: " + category);
+                                            System.out.println("Categoria: " + categoryId);
                                             System.out.println("Fecha: " + date);
                                             System.out.println("¿Desea actualizar el gasto? (1. Si / 5. No)");
                                             menuConfirmarActualizacionOpcionSeleccionada = menuConfirmarActualizacion.mostrarMenu();
                                             if (menuConfirmarActualizacionOpcionSeleccionada.equals("1")) {
-                                                seguimientoGastos.modificarGasto(idExpense, amount, category, date);
+                                                /*expenseMonitoring.updateExpense();*/
                                                 salirSubmenuModificarGasto = true;
                                                 System.out.println("Gasto actualizado correctamente");
                                             }
@@ -247,11 +253,11 @@ public class Presentacion {
         return new Menu(opcionesValidas);
     }
 
-    private CategoriaGasto obtenerCategoriaGasto(String opcionSeleccionada) {
+    private int obtenerCategoriaGasto(String opcionSeleccionada) {
         return switch (opcionSeleccionada) {
-            case "1" -> CategoriaGasto.COMPRAS;
-            case "2" -> CategoriaGasto.PAGO_SERVICIOS;
-            default -> null;
+            case "1" -> 1;
+            case "2" -> 2;
+            default -> 0;
         };
     }
 
@@ -273,7 +279,7 @@ public class Presentacion {
         return new Menu(opcionesValidas);
     }
 
-    private void print(List<? extends ExpenseEntity> list, Class clase) {
+    private void print(List<ExpenseDto> list, Class clase) {
         gastoListPrinter.print(list, clase);
     }
 

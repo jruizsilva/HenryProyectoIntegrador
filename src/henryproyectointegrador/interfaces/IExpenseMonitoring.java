@@ -7,11 +7,11 @@ import java.util.List;
 public interface IExpenseMonitoring {
     List<ExpenseDto> getExpenses();
 
-    ExpenseDto getExpenseById(long id);
+    ExpenseDto getExpenseById(int id);
 
     void insertExpense(ExpenseDto expenseDto);
 
-    void updateExpense(long id, ExpenseDto expenseDto);
+    void updateExpense(int id, ExpenseDto expenseDto);
 
-    void deleteExpense(long id);
+    void deleteExpense(int id);
 }
