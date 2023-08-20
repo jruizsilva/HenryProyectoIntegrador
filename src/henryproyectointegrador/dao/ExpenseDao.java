@@ -5,5 +5,5 @@ import henryproyectointegrador.dao.interfaces.CRUD;
 import henryproyectointegrador.dao.interfaces.MapDataMethods;
 import henryproyectointegrador.entities.ExpenseEntity;
 
-public interface ExpenseDao extends CRUD<ExpenseDto, int>, MapDataMethods<ExpenseDto, ExpenseEntity> {
+public interface ExpenseDao extends CRUD<ExpenseDto, Integer>, MapDataMethods<ExpenseDto, ExpenseEntity> {
 }

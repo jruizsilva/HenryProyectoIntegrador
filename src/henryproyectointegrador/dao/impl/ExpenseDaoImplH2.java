@@ -35,7 +35,7 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
     }
 
     @Override
-    public int update(int id, ExpenseDto dataDto) {
+    public int update(Integer id, ExpenseDto dataDto) {
         int rowsAffected;
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
@@ -43,9 +43,9 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
 
             preparedStatement = connection.prepareStatement(SQL_UPDATE);
             preparedStatement.setDouble(1, dataDto.getAmount());
-            preparedStatement.setint(2, dataDto.getCategory_id());
+            preparedStatement.setInt(2, dataDto.getCategory_id());
             preparedStatement.setDate(3, (Date) dataDto.getDate());
-            preparedStatement.setint(4, id);
+            preparedStatement.setInt(4, id);
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -58,7 +58,7 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
     }
 
     @Override
-    public int deleteById(int id) {
+    public int deleteById(Integer id) {
         int rowsAffected;
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
@@ -88,7 +88,7 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
             while (resultSet.next()) {
                 double monto = resultSet.getDouble("amount");
                 int id = resultSet.getInt("id_expense");
-                int category_id = resultSet.getInt("id_categoria");
+                int category_id = resultSet.getInt("id_category");
                 Date date = resultSet.getDate("date");
                 ExpenseDto expenseDto = ExpenseDto.Make(monto)
                                                   .setId_expense(id)
@@ -107,7 +107,7 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
     }
 
     @Override
-    public ExpenseDto findById(int aint) {
+    public ExpenseDto findById(Integer id) {
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -115,12 +115,12 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
 
         try {
             preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID);
-            preparedStatement.setint(1, aint);
+            preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 double monto = resultSet.getDouble("amount");
-                int id = resultSet.getInt("id_expense");
-                int category_id = resultSet.getInt("id_categoria");
+                int id_expense = resultSet.getInt("id_expense");
+                int category_id = resultSet.getInt("id_category");
                 Date date = resultSet.getDate("date");
                 expenseDto = ExpenseDto.Make(monto)
                                        .setId_expense(id)

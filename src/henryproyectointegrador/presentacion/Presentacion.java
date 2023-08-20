@@ -28,7 +28,6 @@ public class Presentacion {
     }
 
     public void initConsoleMenu() {
-        this.agregarGastosDePrueba();
         Menu menuPrincipal = this.crearMenuPrincipal();
         String menuPrincipalOpcionSeleccionada;
 
@@ -42,7 +41,7 @@ public class Presentacion {
                     Menu menuConfirmarGuardar = this.crearMenuConfirmar();
                     String menuAgregarGastoOpcionSeleccionada;
                     double monto = 0;
-                    int categoriaGasto;
+                    int categoriaGasto = 0;
                     Date fecha = new Date();
                     do {
                         System.out.println("\n========= Menu - Agregar gasto ===========");
@@ -163,17 +162,17 @@ public class Presentacion {
                         menuEliminarGastoOpcionSeleccionada = menuEliminarGasto.mostrarMenu();
                         switch (menuEliminarGastoOpcionSeleccionada) {
                             case "1" -> {
-                                List<ExpenseEntity> gastos = seguimientoGastos.obtenerGastos();
-                                print(gastos, ExpenseEntity.class);
+                                List<ExpenseDto> gastos = expenseMonitoring.getExpenses();
+                                print(gastos, ExpenseDto.class);
                             }
                             case "2" -> {
                                 int idGasto = solicitarInt("Ingresa el id del gasto a eliminar: ");
-                                ExpenseEntity gasto = seguimientoGastos.obtenerGasto(idGasto);
+                                ExpenseDto gasto = expenseMonitoring.getExpenseById(idGasto);
                                 System.out.printf("Gasto a eliminar: %s\n", gasto);
                                 System.out.println("¿Desea eliminar el gasto? (1. Si / 5. No)");
                                 String menuConfirmarEliminarGastoOpcionSeleccionada = menuConfirmarEliminarGasto.mostrarMenu();
                                 if (menuConfirmarEliminarGastoOpcionSeleccionada.equals("1")) {
-                                    seguimientoGastos.eliminarGasto(idGasto);
+                                    expenseMonitoring.deleteExpense(idGasto);
                                     System.out.println("Gasto eliminado correctamente");
                                 }
                             }
@@ -192,8 +191,8 @@ public class Presentacion {
                         menuMostrarGastosOpcionSeleccionada = menuMostrarGastos.mostrarMenu();
                         switch (menuMostrarGastosOpcionSeleccionada) {
                             case "1" -> {
-                                List<ExpenseEntity> gastos = seguimientoGastos.obtenerGastos();
-                                print(gastos, ExpenseEntity.class);
+                                List<ExpenseDto> gastos = expenseMonitoring.getExpenses();
+                                print(gastos, ExpenseDto.class);
                             }
                             case "5" -> {
                             }
@@ -203,18 +202,6 @@ public class Presentacion {
                 case "5" -> cerrarScanner();
             }
         } while (!menuPrincipalOpcionSeleccionada.equals("5"));
-    }
-
-    private void agregarGastosDePrueba() {
-        seguimientoGastos.agregarGasto(100, CategoriaGasto.COMPRAS, new Date());
-        seguimientoGastos.agregarGasto(200, CategoriaGasto.PAGO_SERVICIOS, new Date());
-        seguimientoGastos.agregarGasto(300, CategoriaGasto.COMPRAS, new Date());
-        seguimientoGastos.agregarGasto(400, CategoriaGasto.PAGO_SERVICIOS, new Date());
-        seguimientoGastos.agregarGasto(500, CategoriaGasto.COMPRAS, new Date());
-        seguimientoGastos.agregarGasto(600, CategoriaGasto.PAGO_SERVICIOS, new Date());
-        seguimientoGastos.agregarGasto(700, CategoriaGasto.COMPRAS, new Date());
-        seguimientoGastos.agregarGasto(800, CategoriaGasto.PAGO_SERVICIOS, new Date());
-        seguimientoGastos.agregarGasto(900, CategoriaGasto.COMPRAS, new Date());
     }
 
     private Menu crearMenuPrincipal() {
@@ -279,7 +266,7 @@ public class Presentacion {
         return new Menu(opcionesValidas);
     }
 
-    private void print(List<ExpenseDto> list, Class clase) {
+    public void print(List<ExpenseDto> list, Class clase) {
         gastoListPrinter.print(list, clase);
     }
 
