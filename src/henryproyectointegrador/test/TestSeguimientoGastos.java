@@ -14,6 +14,6 @@ public class TestSeguimientoGastos {
         CategoryDaoImplH2 categoryDao = new CategoryDaoImplH2();
 
         List<CategoryDto> categories = categoryDao.findAll();
-        presentacion.print(categories, CategoryDto.class);
+        presentacion.printCategories(categories);
     }
 }
