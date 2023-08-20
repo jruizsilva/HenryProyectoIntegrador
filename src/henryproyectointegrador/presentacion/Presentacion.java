@@ -1,8 +1,7 @@
 package henryproyectointegrador.presentacion;
 
+import henryproyectointegrador.dao.dto.CategoryDto;
 import henryproyectointegrador.dao.dto.ExpenseDto;
-import henryproyectointegrador.entities.CategoriaGasto;
-import henryproyectointegrador.entities.ExpenseEntity;
 import henryproyectointegrador.negocio.ExpenseMonitoring;
 
 import java.util.Date;
@@ -14,6 +13,7 @@ import static henryproyectointegrador.utils.ScannerInput.*;
 
 public class Presentacion {
     private static final GastoListPrinter gastoListPrinter = GastoListPrinter.getInstance();
+    private static final CategoryListPrinter categoryListPrinter = CategoryListPrinter.getInstance();
     private static final ExpenseMonitoring expenseMonitoring = new ExpenseMonitoring();
     private static Presentacion instancia;
 
@@ -96,8 +96,8 @@ public class Presentacion {
                         menuModificarGastoOpcionSeleccionada = menuModificarGasto.mostrarMenu();
                         switch (menuModificarGastoOpcionSeleccionada) {
                             case "1" -> {
-                                List<ExpenseDto> gastos = expenseMonitoring.getExpenses();
-                                print(gastos, ExpenseEntity.class);
+                                List<ExpenseDto> expenses = expenseMonitoring.getExpenses();
+                                printExpenses(expenses);
                             }
                             case "2" -> {
                                 int idExpense = solicitarInt("Ingresa el id del gasto a modificar: ");
@@ -162,8 +162,8 @@ public class Presentacion {
                         menuEliminarGastoOpcionSeleccionada = menuEliminarGasto.mostrarMenu();
                         switch (menuEliminarGastoOpcionSeleccionada) {
                             case "1" -> {
-                                List<ExpenseDto> gastos = expenseMonitoring.getExpenses();
-                                print(gastos, ExpenseDto.class);
+                                List<ExpenseDto> expenses = expenseMonitoring.getExpenses();
+                                printExpenses(expenses);
                             }
                             case "2" -> {
                                 int idGasto = solicitarInt("Ingresa el id del gasto a eliminar: ");
@@ -192,7 +192,7 @@ public class Presentacion {
                         switch (menuMostrarGastosOpcionSeleccionada) {
                             case "1" -> {
                                 List<ExpenseDto> gastos = expenseMonitoring.getExpenses();
-                                print(gastos, ExpenseDto.class);
+                                printExpenses(gastos);
                             }
                             case "5" -> {
                             }
@@ -226,8 +226,8 @@ public class Presentacion {
 
     private Menu crearMenuCategoria() {
         Map<String, String> opcionesValidas = new TreeMap<>();
-        String opcion1Descripcion = String.format("1. %s", CategoriaGasto.COMPRAS);
-        String opcion2Descripcion = String.format("2. %s", CategoriaGasto.PAGO_SERVICIOS);
+        String opcion1Descripcion = String.format("1. %s", "test compras");
+        String opcion2Descripcion = String.format("2. %s", "to refactor");
         opcionesValidas.put("1", opcion1Descripcion);
         opcionesValidas.put("2", opcion2Descripcion);
         return new Menu(opcionesValidas);
@@ -266,8 +266,8 @@ public class Presentacion {
         return new Menu(opcionesValidas);
     }
 
-    public void print(List<ExpenseDto> list, Class clase) {
-        gastoListPrinter.print(list, clase);
+    public void printExpenses(List<ExpenseDto> list) {
+        gastoListPrinter.print(list);
     }
 
     private Menu crearMenuEliminarGasto() {
@@ -283,5 +283,9 @@ public class Presentacion {
         opcionesValidas.put("1", "1. Mostrar todos los gastos");
         opcionesValidas.put("5", "5. Volver al menu principal");
         return new Menu(opcionesValidas);
+    }
+
+    public void printCategories(List<CategoryDto> list) {
+        categoryListPrinter.print(list);
     }
 }

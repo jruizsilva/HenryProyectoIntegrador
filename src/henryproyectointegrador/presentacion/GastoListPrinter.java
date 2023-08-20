@@ -9,21 +9,21 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class GastoListPrinter {
-    private static GastoListPrinter gastoListPrinter;
+    private static GastoListPrinter categoryListPrinter;
 
     private GastoListPrinter() {
 
     }
 
     public synchronized static GastoListPrinter getInstance() {
-        if (GastoListPrinter.gastoListPrinter == null) {
-            GastoListPrinter.gastoListPrinter = new GastoListPrinter();
+        if (GastoListPrinter.categoryListPrinter == null) {
+            GastoListPrinter.categoryListPrinter = new GastoListPrinter();
         }
-        return GastoListPrinter.gastoListPrinter;
+        return GastoListPrinter.categoryListPrinter;
     }
 
-    public void print(List<ExpenseDto> list, Class clase) {
-        Field[] fields = clase.getDeclaredFields();
+    public void print(List<ExpenseDto> list) {
+        Field[] fields = ExpenseDto.class.getDeclaredFields();
         String[] fieldNames = Stream.of(fields)
                                     .filter(field -> !Modifier.isStatic(field.getModifiers()))
                                     .map(Field::getName)

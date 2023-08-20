@@ -1,9 +1,8 @@
-package henryproyectointegrador.dao.impl;
+package henryproyectointegrador.dao.impl.h2;
 
 import henryproyectointegrador.config.ConnectionH2;
 import henryproyectointegrador.dao.ExpenseDao;
 import henryproyectointegrador.dao.dto.ExpenseDto;
-import henryproyectointegrador.entities.ExpenseEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
     private static final String SQL_INSERT = "INSERT INTO EXPENSE (amount, id_category, date) VALUES (?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE EXPENSE SET amount = ?, id_category = ?, date = ? WHERE id_expense = ?";
     private static final String SQL_DELETE = "DELETE FROM EXPENSE WHERE id_expense = ?";
-    private static final List<ExpenseEntity> expenseEntityList = new ArrayList<>();
 
     @Override
     public int insert(ExpenseDto dataDto) {
@@ -136,15 +134,5 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
             ConnectionH2.close(resultSet);
         }
         return expenseDto;
-    }
-
-    @Override
-    public ExpenseEntity mapDtoToEntity(ExpenseDto expenseDto) {
-        return null;
-    }
-
-    @Override
-    public ExpenseDto mapEntityToDto(ExpenseEntity expenseEntity) {
-        return null;
     }
 }

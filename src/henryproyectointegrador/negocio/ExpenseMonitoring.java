@@ -1,24 +1,20 @@
 package henryproyectointegrador.negocio;
 
 import henryproyectointegrador.dao.dto.ExpenseDto;
-import henryproyectointegrador.dao.impl.ExpenseDaoImplH2;
+import henryproyectointegrador.dao.impl.h2.ExpenseDaoImplH2;
 import henryproyectointegrador.interfaces.IExpenseMonitoring;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseMonitoring implements IExpenseMonitoring {
     private final ExpenseDaoImplH2 expenseDao = new ExpenseDaoImplH2();
-    private final List<ExpenseDto> expenseDtoList = new ArrayList<>();
 
     public ExpenseMonitoring() {
     }
 
     @Override
     public List<ExpenseDto> getExpenses() {
-        List<ExpenseDto> expenseDtoList = expenseDao.findAll();
-        this.expenseDtoList.addAll(expenseDtoList);
-        return expenseDtoList;
+        return expenseDao.findAll();
     }
 
     @Override
@@ -39,9 +35,5 @@ public class ExpenseMonitoring implements IExpenseMonitoring {
     @Override
     public void deleteExpense(int id) {
         expenseDao.deleteById(id);
-    }
-
-    public List<ExpenseDto> getExpenseDtoList() {
-        return this.expenseDtoList;
     }
 }

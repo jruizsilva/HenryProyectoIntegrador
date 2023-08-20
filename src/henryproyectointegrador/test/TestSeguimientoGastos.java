@@ -1,7 +1,8 @@
 package henryproyectointegrador.test;
 
-import henryproyectointegrador.dao.dto.ExpenseDto;
-import henryproyectointegrador.dao.impl.ExpenseDaoImplH2;
+import henryproyectointegrador.dao.dto.CategoryDto;
+import henryproyectointegrador.dao.impl.h2.CategoryDaoImplH2;
+import henryproyectointegrador.dao.impl.h2.ExpenseDaoImplH2;
 import henryproyectointegrador.presentacion.Presentacion;
 
 import java.util.List;
@@ -10,9 +11,9 @@ public class TestSeguimientoGastos {
     public static void main(String[] args) {
         Presentacion presentacion = Presentacion.getInstance();
         ExpenseDaoImplH2 expenseDao = new ExpenseDaoImplH2();
-        List<ExpenseDto> expenseDtoList = expenseDao.findAll();
-        System.out.println("expenseDtoList = " + expenseDtoList);
+        CategoryDaoImplH2 categoryDao = new CategoryDaoImplH2();
 
-        presentacion.print(expenseDtoList, ExpenseDto.class);
+        List<CategoryDto> categories = categoryDao.findAll();
+        presentacion.print(categories, CategoryDto.class);
     }
 }
