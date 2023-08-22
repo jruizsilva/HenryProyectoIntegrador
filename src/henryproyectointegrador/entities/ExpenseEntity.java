@@ -3,66 +3,44 @@ package henryproyectointegrador.entities;
 import java.util.Date;
 
 public class ExpenseEntity {
-    private int id;
-    private double amount;
-    private int category_id;
+    private Integer id;
+    private Double amount;
+    private Integer idCategory;
     private Date date;
 
-    private ExpenseEntity(double amount) {
-        this.amount = amount;
+    public ExpenseEntity() {
+
     }
 
-    public static ExpenseEntity Make(double amount) {
-        return new ExpenseEntity(amount);
+    public Integer getId() {
+        return id;
     }
 
-    public ExpenseEntity Build() {
-        return this;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public ExpenseEntity setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
-        return this;
     }
 
-    public double getAmount() {
-        return this.amount;
+    public Double getAmount() {
+        return amount;
     }
 
-    public ExpenseEntity setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
-        return this;
     }
 
-    public int getCategory_id() {
-        return this.category_id;
+    public Integer getIdCategory() {
+        return idCategory;
     }
 
-    public ExpenseEntity setCategory_id(int category_id) {
-        this.category_id = category_id;
-        return this;
+    public void setIdCategory(Integer idCategory) {
+        this.idCategory = idCategory;
     }
 
     public Date getDate() {
-        return this.date;
+        return date;
     }
 
-    public ExpenseEntity setDate(Date date) {
+    public void setDate(Date date) {
         this.date = date;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "ExpenseEntity{" +
-                "id_gasto=" + id +
-                ", monto=" + amount +
-                ", id_category=" + category_id +
-                ", fecha=" + date +
-                '}';
     }
 }

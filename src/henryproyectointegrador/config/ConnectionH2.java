@@ -11,7 +11,6 @@ public class ConnectionH2 {
         Connection connection;
         try {
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-            System.out.println("H2 database is connected");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

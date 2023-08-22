@@ -1,2 +1,2 @@
-INSERT INTO `category` (`name`) VALUES ('compras');
-INSERT INTO `category` (`name`) VALUES ('pago_servicios');
+INSERT INTO `categories` (`name`) VALUES ('compras');
+INSERT INTO `categories` (`name`) VALUES ('pago_servicios');

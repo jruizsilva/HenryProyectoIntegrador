@@ -31,7 +31,7 @@ public class CategoryListPrinter {
 
         TableList tl = new TableList(fieldNames).withUnicode(true);
         list.forEach(categoryDto -> {
-            String id_categoria = String.valueOf(categoryDto.getId_category());
+            String id_categoria = String.valueOf(categoryDto.getId());
             String nombre = String.valueOf(categoryDto.getName());
             tl.addRow(id_categoria, nombre);
         });

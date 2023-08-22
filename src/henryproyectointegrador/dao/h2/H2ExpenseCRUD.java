@@ -1,32 +1,27 @@
-package henryproyectointegrador.dao.impl.h2;
+package henryproyectointegrador.dao.h2;
 
 import henryproyectointegrador.config.ConnectionH2;
-import henryproyectointegrador.dao.CategoryDao;
-import henryproyectointegrador.dao.dto.CategoryDto;
+import henryproyectointegrador.dao.ExpenseCRUD;
+import henryproyectointegrador.dao.dto.ExpenseDto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDaoImplH2 implements CategoryDao {
-    private static final String SQL_SELECT_ALL = "SELECT id_category, name FROM CATEGORY";
-    private static final String SQL_SELECT_BY_ID = "SELECT id_category, name FROM CATEGORY WHERE id_category = ?";
-    private static final String SQL_INSERT = "INSERT INTO CATEGORY (name) VALUES (?)";
-    private static final String SQL_UPDATE = "UPDATE CATEGORY SET name = ? WHERE id_category = ?";
-    private static final String SQL_DELETE = "DELETE FROM CATEGORY WHERE id_category = ?";
+public class H2ExpenseCRUD implements ExpenseCRUD {
+    private static final String SQL_SELECT_ALL = "SELECT id_expense, amount, id_category, date FROM EXPENSE";
+    private static final String SQL_SELECT_BY_ID = "SELECT id_expense, amount, id_category, date FROM EXPENSE WHERE id_expense = ?";
+    private static final String SQL_INSERT = "INSERT INTO EXPENSE (amount, id_category, date) VALUES (?, ?, ?)";
+    private static final String SQL_UPDATE = "UPDATE EXPENSE SET amount = ?, id_category = ?, date = ? WHERE id_expense = ?";
+    private static final String SQL_DELETE = "DELETE FROM EXPENSE WHERE id_expense = ?";
 
     @Override
-    public int insert(CategoryDto categoryDto) {
+    public Integer insert(ExpenseDto dataDto) {
         int rowsAffected;
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
-
         try {
             preparedStatement = connection.prepareStatement(SQL_INSERT);
-            preparedStatement.setString(1, categoryDto.getName());
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -34,19 +29,21 @@ public class CategoryDaoImplH2 implements CategoryDao {
             ConnectionH2.close(connection);
             ConnectionH2.close(preparedStatement);
         }
-
         return rowsAffected;
     }
 
     @Override
-    public int update(Integer integer, CategoryDto categoryDto) {
+    public Integer update(ExpenseDto expense) {
         int rowsAffected;
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
         try {
+
             preparedStatement = connection.prepareStatement(SQL_UPDATE);
-            preparedStatement.setString(1, categoryDto.getName());
-            preparedStatement.setInt(2, integer);
+            preparedStatement.setDouble(1, expense.getAmount());
+            preparedStatement.setInt(2, expense.getIdCategory());
+            preparedStatement.setDate(3, (Date) expense.getDate());
+            preparedStatement.setInt(4, expense.getId());
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -54,17 +51,18 @@ public class CategoryDaoImplH2 implements CategoryDao {
             ConnectionH2.close(connection);
             ConnectionH2.close(preparedStatement);
         }
+
         return rowsAffected;
     }
 
     @Override
-    public int deleteById(Integer integer) {
+    public Integer delete(ExpenseDto expense) {
         int rowsAffected;
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(SQL_DELETE);
-            preparedStatement.setInt(1, integer);
+            preparedStatement.setInt(1, expense.getId());
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -77,49 +75,58 @@ public class CategoryDaoImplH2 implements CategoryDao {
     }
 
     @Override
-    public List<CategoryDto> findAll() {
-        List<CategoryDto> categoryDtoList = new ArrayList<>();
+    public List<ExpenseDto> selectAll() {
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet;
+        List<ExpenseDto> expenseDtoList = new ArrayList<>();
+
         try {
             preparedStatement = connection.prepareStatement(SQL_SELECT_ALL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                int id = resultSet.getInt("id_category");
-                String name = resultSet.getString("name");
-                CategoryDto categoryDto = CategoryDto.Make(name)
-                                                     .setId_category(id)
-                                                     .Build();
-                categoryDtoList.add(categoryDto);
+                double monto = resultSet.getDouble("amount");
+                int id = resultSet.getInt("id_expense");
+                int idCategory = resultSet.getInt("id_category");
+                Date date = resultSet.getDate("date");
+                ExpenseDto expenseDto = new ExpenseDto();
+                expenseDto.setId(id);
+                expenseDto.setAmount(monto);
+                expenseDto.setId(idCategory);
+                expenseDto.setDate(date);
+
+                expenseDtoList.add(expenseDto);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             ConnectionH2.close(connection);
             ConnectionH2.close(preparedStatement);
-            ConnectionH2.close(resultSet);
         }
-
-        return categoryDtoList;
+        return expenseDtoList;
     }
 
     @Override
-    public CategoryDto findById(Integer integer) {
-        CategoryDto categoryDto = null;
+    public ExpenseDto selectOne(Integer id) {
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+        ExpenseDto expenseDto = null;
+
         try {
             preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID);
-            preparedStatement.setInt(1, integer);
+            preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                int id = resultSet.getInt("id_category");
-                String name = resultSet.getString("name");
-                categoryDto = CategoryDto.Make(name)
-                                         .setId_category(id)
-                                         .Build();
+                double amount = resultSet.getDouble("amount");
+                int idExpense = resultSet.getInt("id_expense");
+                int idCategory = resultSet.getInt("id_category");
+                Date date = resultSet.getDate("date");
+                expenseDto = new ExpenseDto();
+                expenseDto.setId(idExpense);
+                expenseDto.setAmount(amount);
+                expenseDto.setId(idCategory);
+                expenseDto.setDate(date);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -128,6 +135,6 @@ public class CategoryDaoImplH2 implements CategoryDao {
             ConnectionH2.close(preparedStatement);
             ConnectionH2.close(resultSet);
         }
-        return categoryDto;
+        return expenseDto;
     }
 }

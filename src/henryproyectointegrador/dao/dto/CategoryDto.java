@@ -1,36 +1,26 @@
 package henryproyectointegrador.dao.dto;
 
 public class CategoryDto {
-    private int id_category;
+    private Integer id;
     private String name;
 
-    private CategoryDto(String name) {
-        this.name = name;
+    public CategoryDto() {
+
     }
 
-    public static CategoryDto Make(String name) {
-        return new CategoryDto(name);
+    public Integer getId() {
+        return id;
     }
 
-    public CategoryDto Build() {
-        return this;
-    }
-
-    public int getId_category() {
-        return this.id_category;
-    }
-
-    public CategoryDto setId_category(int id_category) {
-        this.id_category = id_category;
-        return this;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    public CategoryDto setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 }

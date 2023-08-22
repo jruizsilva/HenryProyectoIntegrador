@@ -1,39 +1,38 @@
 package henryproyectointegrador.negocio;
 
 import henryproyectointegrador.dao.dto.ExpenseDto;
-import henryproyectointegrador.dao.impl.h2.ExpenseDaoImplH2;
-import henryproyectointegrador.interfaces.IExpenseMonitoring;
+import henryproyectointegrador.dao.h2.H2ExpenseCRUD;
 
 import java.util.List;
 
 public class ExpenseMonitoring implements IExpenseMonitoring {
-    private final ExpenseDaoImplH2 expenseDao = new ExpenseDaoImplH2();
+    private final H2ExpenseCRUD expenseDao = new H2ExpenseCRUD();
 
     public ExpenseMonitoring() {
     }
 
     @Override
-    public List<ExpenseDto> getExpenses() {
-        return expenseDao.findAll();
+    public Integer insert(ExpenseDto expense) {
+        return expenseDao.insert(expense);
     }
 
     @Override
-    public ExpenseDto getExpenseById(int id) {
-        return expenseDao.findById(id);
+    public Integer update(ExpenseDto expense) {
+        return expenseDao.update(expense);
     }
 
     @Override
-    public void insertExpense(ExpenseDto expenseDto) {
-        expenseDao.insert(expenseDto);
+    public Integer delete(ExpenseDto expense) {
+        return expenseDao.delete(expense);
     }
 
     @Override
-    public void updateExpense(int id, ExpenseDto expenseDto) {
-        expenseDao.update(id, expenseDto);
+    public List<ExpenseDto> selectAll() {
+        return expenseDao.selectAll();
     }
 
     @Override
-    public void deleteExpense(int id) {
-        expenseDao.deleteById(id);
+    public ExpenseDto selectOne(Integer id) {
+        return expenseDao.selectOne(id);
     }
 }

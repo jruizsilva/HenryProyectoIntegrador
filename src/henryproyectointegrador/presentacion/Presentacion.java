@@ -72,11 +72,11 @@ public class Presentacion {
                                 System.out.println("¿Desea guardar el gasto? (1. Si / 5. No)");
                                 String menuGuardarGastoOpcionSeleccionada = menuConfirmarGuardar.mostrarMenu();
                                 if (menuGuardarGastoOpcionSeleccionada.equals("1")) {
-                                    ExpenseDto expenseDto = ExpenseDto.Make(monto)
-                                                                      .setCategory_id(1)
-                                                                      .setDate(fecha)
-                                                                      .Build();
-                                    expenseMonitoring.insertExpense(expenseDto);
+                                    ExpenseDto expenseDto = new ExpenseDto();
+                                    expenseDto.setAmount(monto);
+                                    expenseDto.setIdCategory(categoriaGasto);
+                                    expenseDto.setDate(fecha);
+                                    expenseMonitoring.insert(expenseDto);
                                     System.out.println("Gasto guardado correctamente");
                                 }
                             }
@@ -96,15 +96,15 @@ public class Presentacion {
                         menuModificarGastoOpcionSeleccionada = menuModificarGasto.mostrarMenu();
                         switch (menuModificarGastoOpcionSeleccionada) {
                             case "1" -> {
-                                List<ExpenseDto> expenses = expenseMonitoring.getExpenses();
+                                List<ExpenseDto> expenses = expenseMonitoring.selectAll();
                                 printExpenses(expenses);
                             }
                             case "2" -> {
                                 int idExpense = solicitarInt("Ingresa el id del gasto a modificar: ");
-                                ExpenseDto expense = expenseMonitoring.getExpenseById(idExpense);
+                                ExpenseDto expense = expenseMonitoring.selectOne(idExpense);
                                 System.out.printf("Gasto a modificar: %s\n", expense);
                                 double amount = expense.getAmount();
-                                int categoryId = expense.getCategory_id();
+                                int categoryId = expense.getIdCategory();
                                 Date date = expense.getDate();
                                 String menuModificarGastoSubMenuOpcionSeleccionada;
                                 String menuConfirmarActualizacionOpcionSeleccionada;
@@ -162,17 +162,19 @@ public class Presentacion {
                         menuEliminarGastoOpcionSeleccionada = menuEliminarGasto.mostrarMenu();
                         switch (menuEliminarGastoOpcionSeleccionada) {
                             case "1" -> {
-                                List<ExpenseDto> expenses = expenseMonitoring.getExpenses();
+                                List<ExpenseDto> expenses = expenseMonitoring.selectAll();
                                 printExpenses(expenses);
                             }
                             case "2" -> {
                                 int idGasto = solicitarInt("Ingresa el id del gasto a eliminar: ");
-                                ExpenseDto gasto = expenseMonitoring.getExpenseById(idGasto);
+                                ExpenseDto gasto = expenseMonitoring.selectOne(idGasto);
                                 System.out.printf("Gasto a eliminar: %s\n", gasto);
                                 System.out.println("¿Desea eliminar el gasto? (1. Si / 5. No)");
                                 String menuConfirmarEliminarGastoOpcionSeleccionada = menuConfirmarEliminarGasto.mostrarMenu();
                                 if (menuConfirmarEliminarGastoOpcionSeleccionada.equals("1")) {
-                                    expenseMonitoring.deleteExpense(idGasto);
+                                    ExpenseDto expenseDto = new ExpenseDto();
+                                    expenseDto.setId(idGasto);
+                                    expenseMonitoring.delete(expenseDto);
                                     System.out.println("Gasto eliminado correctamente");
                                 }
                             }
@@ -191,7 +193,7 @@ public class Presentacion {
                         menuMostrarGastosOpcionSeleccionada = menuMostrarGastos.mostrarMenu();
                         switch (menuMostrarGastosOpcionSeleccionada) {
                             case "1" -> {
-                                List<ExpenseDto> gastos = expenseMonitoring.getExpenses();
+                                List<ExpenseDto> gastos = expenseMonitoring.selectAll();
                                 printExpenses(gastos);
                             }
                             case "5" -> {

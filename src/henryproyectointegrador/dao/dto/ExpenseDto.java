@@ -3,66 +3,43 @@ package henryproyectointegrador.dao.dto;
 import java.util.Date;
 
 public class ExpenseDto {
-    private int id_expense;
-    private double amount;
-    private int category_id;
+    private Integer id;
+    private Double amount;
+    private Integer idCategory;
     private Date date;
 
-    private ExpenseDto(double amount) {
+    public ExpenseDto() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
-    public static ExpenseDto Make(double amount) {
-        return new ExpenseDto(amount);
+    public Integer getIdCategory() {
+        return idCategory;
     }
 
-    public ExpenseDto Build() {
-        return this;
-    }
-
-    public int getId_expense() {
-        return this.id_expense;
-    }
-
-    public ExpenseDto setId_expense(int id_expense) {
-        this.id_expense = id_expense;
-        return this;
-    }
-
-    public double getAmount() {
-        return this.amount;
-    }
-
-    public ExpenseDto setAmount(double amount) {
-        this.amount = amount;
-        return this;
-    }
-
-    public int getCategory_id() {
-        return this.category_id;
-    }
-
-    public ExpenseDto setCategory_id(int category_id) {
-        this.category_id = category_id;
-        return this;
+    public void setIdCategory(Integer idCategory) {
+        this.idCategory = idCategory;
     }
 
     public Date getDate() {
-        return this.date;
+        return date;
     }
 
-    public ExpenseDto setDate(Date date) {
+    public void setDate(Date date) {
         this.date = date;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "ExpenseDto{" +
-                "id=" + id_expense +
-                ", amount=" + amount +
-                ", category_id=" + category_id +
-                ", date=" + date +
-                '}';
     }
 }
