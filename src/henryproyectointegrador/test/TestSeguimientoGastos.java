@@ -13,12 +13,9 @@ public class TestSeguimientoGastos {
         Presentacion presentacion = Presentacion.getInstance();
         H2ExpenseCRUD expenseDao = new H2ExpenseCRUD();
         H2CategoryCRUD categoryDao = new H2CategoryCRUD();
-        ExpenseDto expenseDto = new ExpenseDto();
-        System.out.println(expenseDto.getId());
         List<CategoryDto> categories = categoryDao.selectAll();
         List<ExpenseDto> expenses = expenseDao.selectAll();
-        System.out.println(expenses);
-        presentacion.printExpenses(expenses);
         presentacion.printCategories(categories);
+        presentacion.printExpenses(expenses);
     }
 }

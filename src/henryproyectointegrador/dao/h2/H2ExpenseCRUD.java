@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class H2ExpenseCRUD implements ExpenseCRUD {
-    private static final String SQL_SELECT_ALL = "SELECT id_expense, amount, id_category, date FROM EXPENSE";
-    private static final String SQL_SELECT_BY_ID = "SELECT id_expense, amount, id_category, date FROM EXPENSE WHERE id_expense = ?";
-    private static final String SQL_INSERT = "INSERT INTO EXPENSE (amount, id_category, date) VALUES (?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE EXPENSE SET amount = ?, id_category = ?, date = ? WHERE id_expense = ?";
-    private static final String SQL_DELETE = "DELETE FROM EXPENSE WHERE id_expense = ?";
+    private static final String SQL_SELECT_ALL = "SELECT id_expense, amount, id_category, date FROM EXPENSES";
+    private static final String SQL_SELECT_BY_ID = "SELECT id_expense, amount, id_category, date FROM EXPENSES WHERE id_expense = ?";
+    private static final String SQL_INSERT = "INSERT INTO EXPENSES (amount, id_category, date) VALUES (?, ?, ?)";
+    private static final String SQL_UPDATE = "UPDATE EXPENSES SET amount = ?, id_category = ?, date = ? WHERE id_expense = ?";
+    private static final String SQL_DELETE = "DELETE FROM EXPENSES WHERE id_expense = ?";
 
     @Override
     public Integer insert(ExpenseDto dataDto) {
@@ -92,9 +92,8 @@ public class H2ExpenseCRUD implements ExpenseCRUD {
                 ExpenseDto expenseDto = new ExpenseDto();
                 expenseDto.setId(id);
                 expenseDto.setAmount(monto);
-                expenseDto.setId(idCategory);
+                expenseDto.setIdCategory(idCategory);
                 expenseDto.setDate(date);
-
                 expenseDtoList.add(expenseDto);
             }
         } catch (SQLException e) {

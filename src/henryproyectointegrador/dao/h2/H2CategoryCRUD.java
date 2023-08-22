@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class H2CategoryCRUD implements CategoryCRUD {
-    private static final String SQL_SELECT_ALL = "SELECT id_category, name FROM CATEGORY";
-    private static final String SQL_SELECT_BY_ID = "SELECT id_category, name FROM CATEGORY WHERE id_category = ?";
-    private static final String SQL_INSERT = "INSERT INTO CATEGORY (name) VALUES (?)";
-    private static final String SQL_UPDATE = "UPDATE CATEGORY SET name = ? WHERE id_category = ?";
-    private static final String SQL_DELETE = "DELETE FROM CATEGORY WHERE id_category = ?";
+    private static final String SQL_SELECT_ALL = "SELECT id_category, name FROM categories";
+    private static final String SQL_SELECT_BY_ID = "SELECT id_category, name FROM categories WHERE id_category = ?";
+    private static final String SQL_INSERT = "INSERT INTO categories (name) VALUES (?)";
+    private static final String SQL_UPDATE = "UPDATE categories SET name = ? WHERE id_category = ?";
+    private static final String SQL_DELETE = "DELETE FROM categories WHERE id_category = ?";
 
     @Override
     public Integer insert(CategoryDto categoryDto) {

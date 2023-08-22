@@ -3,7 +3,7 @@ package henryproyectointegrador.config;
 import java.sql.*;
 
 public class ConnectionH2 {
-    private static final String JDBC_URL = "jdbc:h2:~/expenses-app";
+    private static final String JDBC_URL = "jdbc:h2:~/expense-monitoring";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
