@@ -41,7 +41,6 @@ public class Presentacion {
                     Double amount = null;
                     Integer categoryId = null;
                     LocalDate date = LocalDate.now();
-                    System.out.println(date);
                     ExpenseDto expenseDto = new ExpenseDto();
                     expenseDto.setDate(date);
                     do {
@@ -89,8 +88,10 @@ public class Presentacion {
                                 System.out.println("¿Desea guardar el gasto? (1. Si / 5. No)");
                                 String menuGuardarGastoOpcionSeleccionada = menuConfirmarGuardar.mostrarMenu();
                                 if (menuGuardarGastoOpcionSeleccionada.equals("1")) {
-                                    expenseMonitoring.insert(expenseDto);
-                                    System.out.println("Gasto guardado correctamente");
+                                    int rows = expenseMonitoring.insert(expenseDto);
+                                    if (rows > 0) {
+                                        System.out.println("Gasto guardado correctamente");
+                                    }
                                 }
                             }
                             case "5" -> {
@@ -115,10 +116,14 @@ public class Presentacion {
                             case "2" -> {
                                 int idExpense = solicitarInt("Ingresa el id del gasto a modificar: ");
                                 ExpenseDto expense = expenseMonitoring.selectOne(idExpense);
-                                System.out.printf("Gasto a modificar: %s\n", expense);
-                                double amount = expense.getAmount();
-                                int categoryId = expense.getIdCategory();
-                                LocalDate date = expense.getDate();
+                                System.out.println(expense);
+                                System.out.println("Gasto a modificar");
+                                printer.print(expense, true);
+                                ExpenseDto expenseDto = new ExpenseDto();
+                                expenseDto.setId(expense.getId());
+                                expenseDto.setAmount(expense.getAmount());
+                                expenseDto.setIdCategory(expense.getIdCategory());
+                                expenseDto.setDate(expense.getDate());
                                 String menuModificarGastoSubMenuOpcionSeleccionada;
                                 String menuConfirmarActualizacionOpcionSeleccionada;
                                 boolean salirSubmenuModificarGasto = false;
@@ -127,32 +132,51 @@ public class Presentacion {
                                     switch (menuModificarGastoSubMenuOpcionSeleccionada) {
                                         case "1" -> {
                                             System.out.println("\n---------- Actualizar gasto ----------");
-                                            amount = solicitarDouble("Ingresa el nuevo monto del gasto: ");
+                                            Double amount = solicitarDouble("Ingresa el nuevo monto del gasto: ");
+                                            expenseDto.setAmount(amount);
                                             System.out.printf("Monto asignado: %.2f\n", amount);
+                                            printer.print(expenseDto, true);
                                         }
                                         case "2" -> {
                                             System.out.println("\n---------- Actualizar categoria ----------");
                                             String menuCategoriaOpcionSeleccionada = menuCategoria.mostrarMenu();
-                                            categoryId = Integer.parseInt(menuCategoriaOpcionSeleccionada);
-                                            System.out.printf("Categoria asignada: %s\n", categoryId);
+                                            Integer categoryId = Integer.parseInt(menuCategoriaOpcionSeleccionada);
+                                            expenseDto.setIdCategory(categoryId);
+                                            System.out.printf("Categoria asignada: %s\n", expenseMonitoring.getCategoryMapList()
+                                                                                                           .get(categoryId));
+                                            printer.print(expenseDto, true);
                                         }
                                         case "3" -> {
                                             System.out.println("\n---------- Actualizar fecha ----------");
-                                            date = requestLocalDate("Ingresa la nueva fecha del gasto siguiendo el formato dd/MM/yyyy: ");
+                                            LocalDate date = requestLocalDate("Ingresa la nueva fecha del gasto siguiendo el formato dd/MM/yyyy: ");
+                                            expenseDto.setDate(date);
                                             System.out.printf("Fecha asignada: %s\n", date);
+                                            printer.print(expenseDto, true);
                                         }
                                         case "4" -> {
+                                            if (expenseDto.getAmount() == null) {
+                                                System.out.println("field amount is required");
+                                                break;
+                                            }
+                                            if (expenseDto.getIdCategory() == null) {
+                                                System.out.println("field category is required");
+                                                break;
+                                            }
+                                            if (expenseDto.getAmount() <= 0) {
+                                                System.out.printf("amount \"%s\" is not valid\n", expenseDto.getAmount());
+                                                break;
+                                            }
                                             System.out.println("\n---------- Guardar cambios  ----------");
                                             System.out.println("Datos del gasto a actualizar");
-                                            System.out.println("Monto: " + amount);
-                                            System.out.println("Categoria: " + categoryId);
-                                            System.out.println("Fecha: " + date);
+                                            printer.print(expenseDto, true);
                                             System.out.println("¿Desea actualizar el gasto? (1. Si / 5. No)");
                                             menuConfirmarActualizacionOpcionSeleccionada = menuConfirmarActualizacion.mostrarMenu();
                                             if (menuConfirmarActualizacionOpcionSeleccionada.equals("1")) {
-                                                /*expenseMonitoring.updateExpense();*/
-                                                salirSubmenuModificarGasto = true;
-                                                System.out.println("Gasto actualizado correctamente");
+                                                int rows = expenseMonitoring.update(expenseDto);
+                                                if (rows > 0) {
+                                                    System.out.println("Gasto actualizado correctamente");
+                                                    salirSubmenuModificarGasto = true;
+                                                }
                                             }
                                         }
                                         case "5" -> salirSubmenuModificarGasto = true;

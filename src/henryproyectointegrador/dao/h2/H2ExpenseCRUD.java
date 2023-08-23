@@ -127,7 +127,7 @@ public class H2ExpenseCRUD implements ExpenseCRUD {
                 expenseDto = new ExpenseDto();
                 expenseDto.setId(idExpense);
                 expenseDto.setAmount(amount);
-                expenseDto.setId(idCategory);
+                expenseDto.setIdCategory(idCategory);
                 expenseDto.setDate(date.toLocalDate());
             }
         } catch (SQLException e) {

@@ -50,6 +50,7 @@ public class Printer {
     public void print(ExpenseDto expenseDto, boolean showId) {
         Map<Integer, String> categoryMapList = expenseMonitoring.getCategoryMapList();
         LinkedHashSet<String> fieldNames = new LinkedHashSet<>();
+        System.out.println(expenseDto);
         if (showId) {
             fieldNames.add("id");
         }
