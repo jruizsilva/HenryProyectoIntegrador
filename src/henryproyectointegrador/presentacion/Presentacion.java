@@ -3,7 +3,7 @@ package henryproyectointegrador.presentacion;
 import henryproyectointegrador.dao.dto.ExpenseDto;
 import henryproyectointegrador.negocio.ExpenseMonitoring;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -40,7 +40,8 @@ public class Presentacion {
                     String menuAgregarGastoOpcionSeleccionada;
                     Double amount = null;
                     Integer categoryId = null;
-                    Date date = new Date();
+                    LocalDate date = LocalDate.now();
+                    System.out.println(date);
                     ExpenseDto expenseDto = new ExpenseDto();
                     expenseDto.setDate(date);
                     do {
@@ -64,7 +65,8 @@ public class Presentacion {
                             }
                             case "3" -> {
                                 System.out.println("\n---------- Asignar fecha ----------");
-                                date = solicitarFecha("Ingresa la fecha del gasto siguiendo el formato yyyy-MM-dd: ");
+                                date = requestLocalDate("Ingresa la fecha del gasto siguiendo el formato yyyy-MM-dd: ");
+                                System.out.println(date);
                                 expenseDto.setDate(date);
                                 System.out.printf("Fecha asignada: %s\n", date);
                                 printer.print(expenseDto, false);
@@ -117,7 +119,7 @@ public class Presentacion {
                                 System.out.printf("Gasto a modificar: %s\n", expense);
                                 double amount = expense.getAmount();
                                 int categoryId = expense.getIdCategory();
-                                Date date = expense.getDate();
+                                LocalDate date = expense.getDate();
                                 String menuModificarGastoSubMenuOpcionSeleccionada;
                                 String menuConfirmarActualizacionOpcionSeleccionada;
                                 boolean salirSubmenuModificarGasto = false;
@@ -137,7 +139,7 @@ public class Presentacion {
                                         }
                                         case "3" -> {
                                             System.out.println("\n---------- Actualizar fecha ----------");
-                                            date = solicitarFecha("Ingresa la nueva fecha del gasto siguiendo el formato dd/MM/yyyy: ");
+                                            date = requestLocalDate("Ingresa la nueva fecha del gasto siguiendo el formato dd/MM/yyyy: ");
                                             System.out.printf("Fecha asignada: %s\n", date);
                                         }
                                         case "4" -> {

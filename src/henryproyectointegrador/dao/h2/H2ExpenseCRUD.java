@@ -24,7 +24,7 @@ public class H2ExpenseCRUD implements ExpenseCRUD {
             preparedStatement = connection.prepareStatement(SQL_INSERT);
             preparedStatement.setDouble(1, expense.getAmount());
             preparedStatement.setInt(2, expense.getIdCategory());
-            preparedStatement.setDate(3, (Date) expense.getDate());
+            preparedStatement.setDate(3, Date.valueOf(expense.getDate()));
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -45,7 +45,7 @@ public class H2ExpenseCRUD implements ExpenseCRUD {
             preparedStatement = connection.prepareStatement(SQL_UPDATE);
             preparedStatement.setDouble(1, expense.getAmount());
             preparedStatement.setInt(2, expense.getIdCategory());
-            preparedStatement.setDate(3, (Date) expense.getDate());
+            preparedStatement.setDate(3, Date.valueOf(expense.getDate()));
             preparedStatement.setInt(4, expense.getId());
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -96,7 +96,7 @@ public class H2ExpenseCRUD implements ExpenseCRUD {
                 expenseDto.setId(id);
                 expenseDto.setAmount(monto);
                 expenseDto.setIdCategory(idCategory);
-                expenseDto.setDate(date);
+                expenseDto.setDate(date.toLocalDate());
                 expenseDtoList.add(expenseDto);
             }
         } catch (SQLException e) {
@@ -128,7 +128,7 @@ public class H2ExpenseCRUD implements ExpenseCRUD {
                 expenseDto.setId(idExpense);
                 expenseDto.setAmount(amount);
                 expenseDto.setId(idCategory);
-                expenseDto.setDate(date);
+                expenseDto.setDate(date.toLocalDate());
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

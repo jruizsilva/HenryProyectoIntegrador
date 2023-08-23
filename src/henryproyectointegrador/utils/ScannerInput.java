@@ -6,6 +6,8 @@ import henryproyectointegrador.excepciones.MontoIngresadoInvalidoException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -46,6 +48,23 @@ public class ScannerInput {
         } while (!isValidInput);
 
         return entradaDate;
+    }
+
+    public static LocalDate requestLocalDate(String textToShow) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = null;
+        boolean isValidInput = false;
+        do {
+            System.out.println(textToShow);
+            String entrada = scanner.next();
+            try {
+                isValidInput = isValidDate(entrada, formatter);
+                localDate = LocalDate.parse(entrada, formatter);
+            } catch (FechaIngresadaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!isValidInput);
+        return localDate;
     }
 
     public static String solicitarString() {

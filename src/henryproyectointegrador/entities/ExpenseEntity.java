@@ -1,12 +1,12 @@
 package henryproyectointegrador.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ExpenseEntity {
     private Integer id;
     private Double amount;
     private Integer idCategory;
-    private Date date;
+    private LocalDate date;
 
     public ExpenseEntity() {
 
@@ -36,11 +36,11 @@ public class ExpenseEntity {
         this.idCategory = idCategory;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }
