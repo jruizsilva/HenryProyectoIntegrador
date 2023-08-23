@@ -12,7 +12,7 @@ import java.util.TreeMap;
 public class ExpenseMonitoring implements IExpenseMonitoring {
     private final H2ExpenseCRUD expenseDao = new H2ExpenseCRUD();
     private final H2CategoryCRUD categoryDao = new H2CategoryCRUD();
-    private final Map<String, String> categoryList = new TreeMap<>();
+    private final Map<Integer, String> categoryList = new TreeMap<>();
 
     public ExpenseMonitoring() {
         loadCategoryList();
@@ -22,12 +22,12 @@ public class ExpenseMonitoring implements IExpenseMonitoring {
         categoryList.clear();
         List<CategoryDto> categoryDtos = categoryDao.selectAll();
         for (int i = 0; i < categoryDtos.size(); i++) {
-            categoryList.put(String.valueOf(i + 1), categoryDtos.get(i)
-                                                                .getName());
+            categoryList.put(i + 1, categoryDtos.get(i)
+                                                .getName());
         }
     }
 
-    public Map<String, String> getCategoryList() {
+    public Map<Integer, String> getCategoryList() {
         return categoryList;
     }
 

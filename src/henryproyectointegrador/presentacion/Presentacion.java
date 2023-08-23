@@ -12,19 +12,18 @@ import java.util.TreeMap;
 import static henryproyectointegrador.utils.ScannerInput.*;
 
 public class Presentacion {
-    private static final GastoListPrinter gastoListPrinter = GastoListPrinter.getInstance();
     private static final CategoryListPrinter categoryListPrinter = CategoryListPrinter.getInstance();
     private static final ExpenseMonitoring expenseMonitoring = new ExpenseMonitoring();
-    private static Presentacion instancia;
+    private static Presentacion presentacion;
 
     private Presentacion() {
     }
 
     public synchronized static Presentacion getInstance() {
-        if (Presentacion.instancia == null) {
-            Presentacion.instancia = new Presentacion();
+        if (Presentacion.presentacion == null) {
+            Presentacion.presentacion = new Presentacion();
         }
-        return Presentacion.instancia;
+        return Presentacion.presentacion;
     }
 
     public void initConsoleMenu() {
@@ -43,8 +42,8 @@ public class Presentacion {
                     String menuAgregarGastoOpcionSeleccionada;
                     ExpenseDto expenseDto = new ExpenseDto();
                     double amount = 0;
-                    int categoriaGasto = 0;
-                    Date fecha = new Date();
+                    int categoryId;
+                    Date date = new Date();
                     do {
                         System.out.println("\n========= Menu - Agregar gasto ===========");
                         menuAgregarGastoOpcionSeleccionada = menuAgregarGasto.mostrarMenu();
@@ -58,15 +57,17 @@ public class Presentacion {
                             }
                             case "2" -> {
                                 System.out.println("\n---------- Asignar categoria ----------");
-                                String menuCategoriaOpcionSeleccionada = menuCategoria.mostrarMenu();
-                                categoriaGasto = obtenerCategoriaGasto(menuCategoriaOpcionSeleccionada);
-                                System.out.printf("Categoria asignada: %s\n", categoriaGasto);
+                                categoryId = Integer.parseInt(menuCategoria.mostrarMenu());
+                                expenseDto.setIdCategory(categoryId);
+                                System.out.printf("Categoria asignada: %s\n", expenseMonitoring.getCategoryList()
+                                                                                               .get(categoryId));
                                 System.out.println(expenseDto);
                             }
                             case "3" -> {
                                 System.out.println("\n---------- Asignar fecha ----------");
-                                fecha = solicitarFecha("Ingresa la fecha del gasto siguiendo el formato dd/MM/yyyy: ");
-                                System.out.printf("Fecha asignada: %s\n", fecha);
+                                date = solicitarFecha("Ingresa la fecha del gasto siguiendo el formato yyyy-MM-dd: ");
+                                expenseDto.setDate(date);
+                                System.out.printf("Fecha asignada: %s\n", date);
                                 System.out.println(expenseDto);
                             }
                             case "4" -> {
@@ -96,7 +97,7 @@ public class Presentacion {
                         switch (menuModificarGastoOpcionSeleccionada) {
                             case "1" -> {
                                 List<ExpenseDto> expenses = expenseMonitoring.selectAll();
-                                printExpenses(expenses);
+                                printExpenses(expenses, true);
                             }
                             case "2" -> {
                                 int idExpense = solicitarInt("Ingresa el id del gasto a modificar: ");
@@ -119,7 +120,7 @@ public class Presentacion {
                                         case "2" -> {
                                             System.out.println("\n---------- Actualizar categoria ----------");
                                             String menuCategoriaOpcionSeleccionada = menuCategoria.mostrarMenu();
-                                            categoryId = obtenerCategoriaGasto(menuCategoriaOpcionSeleccionada);
+                                            categoryId = Integer.parseInt(menuCategoriaOpcionSeleccionada);
                                             System.out.printf("Categoria asignada: %s\n", categoryId);
                                         }
                                         case "3" -> {
@@ -162,7 +163,7 @@ public class Presentacion {
                         switch (menuEliminarGastoOpcionSeleccionada) {
                             case "1" -> {
                                 List<ExpenseDto> expenses = expenseMonitoring.selectAll();
-                                printExpenses(expenses);
+                                printExpenses(expenses, true);
                             }
                             case "2" -> {
                                 int idGasto = solicitarInt("Ingresa el id del gasto a eliminar: ");
@@ -193,7 +194,7 @@ public class Presentacion {
                         switch (menuMostrarGastosOpcionSeleccionada) {
                             case "1" -> {
                                 List<ExpenseDto> gastos = expenseMonitoring.selectAll();
-                                printExpenses(gastos);
+                                printExpenses(gastos, true);
                             }
                             case "5" -> {
                             }
@@ -227,10 +228,10 @@ public class Presentacion {
 
     private Menu crearMenuCategoria() {
         Map<String, String> opcionesValidas = new TreeMap<>();
-        Map<String, String> categoryList = expenseMonitoring.getCategoryList();
-        for (String key : categoryList.keySet()) {
+        Map<Integer, String> categoryList = expenseMonitoring.getCategoryList();
+        for (Integer key : categoryList.keySet()) {
             String optionDescripcion = String.format("%s. %s", key, categoryList.get(key));
-            opcionesValidas.put(key, optionDescripcion);
+            opcionesValidas.put(String.valueOf(key), optionDescripcion);
         }
         return new Menu(opcionesValidas);
     }
@@ -240,14 +241,6 @@ public class Presentacion {
         opcionesValidas.put("1", "1. Si");
         opcionesValidas.put("5", "5. No");
         return new Menu(opcionesValidas);
-    }
-
-    private int obtenerCategoriaGasto(String opcionSeleccionada) {
-        return switch (opcionSeleccionada) {
-            case "1" -> 1;
-            case "2" -> 2;
-            default -> 0;
-        };
     }
 
     private Menu crearMenuModificarGasto() {
@@ -268,8 +261,9 @@ public class Presentacion {
         return new Menu(opcionesValidas);
     }
 
-    public void printExpenses(List<ExpenseDto> list) {
-        gastoListPrinter.print(list);
+    public void printExpenses(List<ExpenseDto> list, boolean includeId) {
+        Map<Integer, String> categoryList = expenseMonitoring.getCategoryList();
+        ExpensePrinter.print(list, categoryList, includeId);
     }
 
     private Menu crearMenuEliminarGasto() {

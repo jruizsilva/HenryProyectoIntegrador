@@ -31,7 +31,7 @@ public class ScannerInput {
     }
 
     public static Date solicitarFecha(String textToShow) {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date entradaDate = null;
         boolean isValidInput = false;
         do {
