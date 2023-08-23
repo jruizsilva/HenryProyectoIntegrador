@@ -116,7 +116,6 @@ public class Presentacion {
                             case "2" -> {
                                 int idExpense = solicitarInt("Ingresa el id del gasto a modificar: ");
                                 ExpenseDto expense = expenseMonitoring.selectOne(idExpense);
-                                System.out.println(expense);
                                 System.out.println("Gasto a modificar");
                                 printer.print(expense, true);
                                 ExpenseDto expenseDto = new ExpenseDto();
@@ -203,16 +202,18 @@ public class Presentacion {
                                 printer.printExpenses(expenses, true);
                             }
                             case "2" -> {
-                                int idGasto = solicitarInt("Ingresa el id del gasto a eliminar: ");
-                                ExpenseDto gasto = expenseMonitoring.selectOne(idGasto);
-                                System.out.printf("Gasto a eliminar: %s\n", gasto);
+                                int idExpense = solicitarInt("Ingresa el id del gasto a eliminar: ");
+                                ExpenseDto expense = expenseMonitoring.selectOne(idExpense);
+                                printer.print(expense, true);
                                 System.out.println("¿Desea eliminar el gasto? (1. Si / 5. No)");
                                 String menuConfirmarEliminarGastoOpcionSeleccionada = menuConfirmarEliminarGasto.mostrarMenu();
                                 if (menuConfirmarEliminarGastoOpcionSeleccionada.equals("1")) {
                                     ExpenseDto expenseDto = new ExpenseDto();
-                                    expenseDto.setId(idGasto);
-                                    expenseMonitoring.delete(expenseDto);
-                                    System.out.println("Gasto eliminado correctamente");
+                                    expenseDto.setId(idExpense);
+                                    int rows = expenseMonitoring.delete(expenseDto);
+                                    if (rows > 0) {
+                                        System.out.println("Gasto eliminado correctamente");
+                                    }
                                 }
                             }
                             case "5" -> {
