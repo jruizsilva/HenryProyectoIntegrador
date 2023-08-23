@@ -66,18 +66,17 @@ public class Presentacion {
                             case "3" -> {
                                 System.out.println("\n---------- Asignar fecha ----------");
                                 date = requestLocalDate("Ingresa la fecha del gasto siguiendo el formato yyyy-MM-dd: ");
-                                System.out.println(date);
                                 expenseDto.setDate(date);
                                 System.out.printf("Fecha asignada: %s\n", date);
                                 printer.print(expenseDto, false);
                             }
                             case "4" -> {
                                 if (amount == null) {
-                                    System.out.println("field amount is required");
+                                    System.out.print("field amount is required");
                                     break;
                                 }
                                 if (categoryId == null) {
-                                    System.out.println("field category is required");
+                                    System.out.print("field category is required");
                                     break;
                                 }
                                 if (amount <= 0) {
