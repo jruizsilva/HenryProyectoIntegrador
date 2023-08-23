@@ -28,6 +28,7 @@ public class Presentacion {
     }
 
     public void initConsoleMenu() {
+        System.out.println(expenseMonitoring.getCategoryList());
         Menu menuPrincipal = this.crearMenuPrincipal();
         String menuPrincipalOpcionSeleccionada;
 
@@ -36,11 +37,12 @@ public class Presentacion {
             menuPrincipalOpcionSeleccionada = menuPrincipal.mostrarMenu();
             switch (menuPrincipalOpcionSeleccionada) {
                 case "1" -> {
-                    Menu menuAgregarGasto = this.crearMenuAgregarGasto();
-                    Menu menuCategoria = this.crearMenuCategoria();
-                    Menu menuConfirmarGuardar = this.crearMenuConfirmar();
+                    Menu menuAgregarGasto = crearMenuAgregarGasto();
+                    Menu menuCategoria = crearMenuCategoria();
+                    Menu menuConfirmarGuardar = crearMenuConfirmar();
                     String menuAgregarGastoOpcionSeleccionada;
-                    double monto = 0;
+                    ExpenseDto expenseDto = new ExpenseDto();
+                    double amount = 0;
                     int categoriaGasto = 0;
                     Date fecha = new Date();
                     do {
@@ -49,33 +51,30 @@ public class Presentacion {
                         switch (menuAgregarGastoOpcionSeleccionada) {
                             case "1" -> {
                                 System.out.println("\n---------- Asignar gasto ----------");
-                                monto = solicitarDouble("Ingresa el monto del gasto: ");
-                                System.out.printf("Monto asignado: %.2f\n", monto);
+                                amount = solicitarDouble("Ingresa el monto del gasto: ");
+                                expenseDto.setAmount(amount);
+                                System.out.printf("Monto asignado: %.2f\n", amount);
+                                System.out.println(expenseDto);
                             }
                             case "2" -> {
                                 System.out.println("\n---------- Asignar categoria ----------");
                                 String menuCategoriaOpcionSeleccionada = menuCategoria.mostrarMenu();
                                 categoriaGasto = obtenerCategoriaGasto(menuCategoriaOpcionSeleccionada);
                                 System.out.printf("Categoria asignada: %s\n", categoriaGasto);
+                                System.out.println(expenseDto);
                             }
                             case "3" -> {
                                 System.out.println("\n---------- Asignar fecha ----------");
                                 fecha = solicitarFecha("Ingresa la fecha del gasto siguiendo el formato dd/MM/yyyy: ");
                                 System.out.printf("Fecha asignada: %s\n", fecha);
+                                System.out.println(expenseDto);
                             }
                             case "4" -> {
                                 System.out.println("\n---------- Guardar gasto ----------");
-                                System.out.println("Datos del gasto a guardar");
-                                System.out.println("Monto: " + monto);
-                                System.out.println("Categoria: " + categoriaGasto);
-                                System.out.println("Fecha: " + fecha);
                                 System.out.println("¿Desea guardar el gasto? (1. Si / 5. No)");
+                                System.out.println(expenseDto);
                                 String menuGuardarGastoOpcionSeleccionada = menuConfirmarGuardar.mostrarMenu();
                                 if (menuGuardarGastoOpcionSeleccionada.equals("1")) {
-                                    ExpenseDto expenseDto = new ExpenseDto();
-                                    expenseDto.setAmount(monto);
-                                    expenseDto.setIdCategory(categoriaGasto);
-                                    expenseDto.setDate(fecha);
                                     expenseMonitoring.insert(expenseDto);
                                     System.out.println("Gasto guardado correctamente");
                                 }
@@ -86,10 +85,10 @@ public class Presentacion {
                     } while (!menuAgregarGastoOpcionSeleccionada.equals("5"));
                 }
                 case "2" -> {
-                    Menu menuModificarGasto = this.crearMenuModificarGasto();
-                    Menu menuCategoria = this.crearMenuCategoria();
-                    Menu menuConfirmarActualizacion = this.crearMenuConfirmar();
-                    Menu subMenuModificarGasto = this.crearSubMenuModificarGasto();
+                    Menu menuModificarGasto = crearMenuModificarGasto();
+                    Menu menuCategoria = crearMenuCategoria();
+                    Menu menuConfirmarActualizacion = crearMenuConfirmar();
+                    Menu subMenuModificarGasto = crearSubMenuModificarGasto();
                     String menuModificarGastoOpcionSeleccionada;
                     do {
                         System.out.println("\n========= Menu - Modificar gasto ===========");
@@ -154,8 +153,8 @@ public class Presentacion {
                 }
 
                 case "3" -> {
-                    Menu menuEliminarGasto = this.crearMenuEliminarGasto();
-                    Menu menuConfirmarEliminarGasto = this.crearMenuConfirmar();
+                    Menu menuEliminarGasto = crearMenuEliminarGasto();
+                    Menu menuConfirmarEliminarGasto = crearMenuConfirmar();
                     String menuEliminarGastoOpcionSeleccionada;
                     do {
                         System.out.println("\n========= Menu - Eliminar gasto ===========");
@@ -228,10 +227,11 @@ public class Presentacion {
 
     private Menu crearMenuCategoria() {
         Map<String, String> opcionesValidas = new TreeMap<>();
-        String opcion1Descripcion = String.format("1. %s", "test compras");
-        String opcion2Descripcion = String.format("2. %s", "to refactor");
-        opcionesValidas.put("1", opcion1Descripcion);
-        opcionesValidas.put("2", opcion2Descripcion);
+        Map<String, String> categoryList = expenseMonitoring.getCategoryList();
+        for (String key : categoryList.keySet()) {
+            String optionDescripcion = String.format("%s. %s", key, categoryList.get(key));
+            opcionesValidas.put(key, optionDescripcion);
+        }
         return new Menu(opcionesValidas);
     }
 

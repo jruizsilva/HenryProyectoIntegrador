@@ -16,12 +16,15 @@ public class H2ExpenseCRUD implements ExpenseCRUD {
     private static final String SQL_DELETE = "DELETE FROM EXPENSES WHERE id_expense = ?";
 
     @Override
-    public Integer insert(ExpenseDto dataDto) {
+    public Integer insert(ExpenseDto expense) {
         int rowsAffected;
         Connection connection = ConnectionH2.getConnection();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(SQL_INSERT);
+            preparedStatement.setDouble(1, expense.getAmount());
+            preparedStatement.setInt(2, expense.getIdCategory());
+            preparedStatement.setDate(3, (Date) expense.getDate());
             rowsAffected = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

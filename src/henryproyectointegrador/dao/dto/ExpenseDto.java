@@ -42,4 +42,14 @@ public class ExpenseDto {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "ExpenseDto{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", idCategory=" + idCategory +
+                ", date=" + date +
+                '}';
+    }
 }
