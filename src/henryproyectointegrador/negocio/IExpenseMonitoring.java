@@ -8,5 +8,5 @@ import java.util.Map;
 public interface IExpenseMonitoring extends CRUD<ExpenseDto, Integer> {
     void loadCategoryList();
 
-    Map<Integer, String> getCategoryList();
+    Map<Integer, String> getCategoryMapList();
 }

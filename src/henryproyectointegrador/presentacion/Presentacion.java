@@ -1,6 +1,5 @@
 package henryproyectointegrador.presentacion;
 
-import henryproyectointegrador.dao.dto.CategoryDto;
 import henryproyectointegrador.dao.dto.ExpenseDto;
 import henryproyectointegrador.negocio.ExpenseMonitoring;
 
@@ -12,8 +11,8 @@ import java.util.TreeMap;
 import static henryproyectointegrador.utils.ScannerInput.*;
 
 public class Presentacion {
-    private static final CategoryListPrinter categoryListPrinter = CategoryListPrinter.getInstance();
-    private static final ExpenseMonitoring expenseMonitoring = new ExpenseMonitoring();
+    private static final Printer printer = Printer.getInstance();
+    private static final ExpenseMonitoring expenseMonitoring = ExpenseMonitoring.getInstance();
     private static Presentacion presentacion;
 
     private Presentacion() {
@@ -27,7 +26,7 @@ public class Presentacion {
     }
 
     public void initConsoleMenu() {
-        System.out.println(expenseMonitoring.getCategoryList());
+        System.out.println(expenseMonitoring.getCategoryMapList());
         Menu menuPrincipal = this.crearMenuPrincipal();
         String menuPrincipalOpcionSeleccionada;
 
@@ -59,7 +58,7 @@ public class Presentacion {
                                 System.out.println("\n---------- Asignar categoria ----------");
                                 categoryId = Integer.parseInt(menuCategoria.mostrarMenu());
                                 expenseDto.setIdCategory(categoryId);
-                                System.out.printf("Categoria asignada: %s\n", expenseMonitoring.getCategoryList()
+                                System.out.printf("Categoria asignada: %s\n", expenseMonitoring.getCategoryMapList()
                                                                                                .get(categoryId));
                                 System.out.println(expenseDto);
                             }
@@ -97,7 +96,7 @@ public class Presentacion {
                         switch (menuModificarGastoOpcionSeleccionada) {
                             case "1" -> {
                                 List<ExpenseDto> expenses = expenseMonitoring.selectAll();
-                                printExpenses(expenses, true);
+                                printer.printExpenses(expenses, true);
                             }
                             case "2" -> {
                                 int idExpense = solicitarInt("Ingresa el id del gasto a modificar: ");
@@ -163,7 +162,7 @@ public class Presentacion {
                         switch (menuEliminarGastoOpcionSeleccionada) {
                             case "1" -> {
                                 List<ExpenseDto> expenses = expenseMonitoring.selectAll();
-                                printExpenses(expenses, true);
+                                printer.printExpenses(expenses, true);
                             }
                             case "2" -> {
                                 int idGasto = solicitarInt("Ingresa el id del gasto a eliminar: ");
@@ -194,7 +193,7 @@ public class Presentacion {
                         switch (menuMostrarGastosOpcionSeleccionada) {
                             case "1" -> {
                                 List<ExpenseDto> gastos = expenseMonitoring.selectAll();
-                                printExpenses(gastos, true);
+                                printer.printExpenses(gastos, true);
                             }
                             case "5" -> {
                             }
@@ -228,7 +227,7 @@ public class Presentacion {
 
     private Menu crearMenuCategoria() {
         Map<String, String> opcionesValidas = new TreeMap<>();
-        Map<Integer, String> categoryList = expenseMonitoring.getCategoryList();
+        Map<Integer, String> categoryList = expenseMonitoring.getCategoryMapList();
         for (Integer key : categoryList.keySet()) {
             String optionDescripcion = String.format("%s. %s", key, categoryList.get(key));
             opcionesValidas.put(String.valueOf(key), optionDescripcion);
@@ -261,11 +260,6 @@ public class Presentacion {
         return new Menu(opcionesValidas);
     }
 
-    public void printExpenses(List<ExpenseDto> list, boolean includeId) {
-        Map<Integer, String> categoryList = expenseMonitoring.getCategoryList();
-        ExpensePrinter.print(list, categoryList, includeId);
-    }
-
     private Menu crearMenuEliminarGasto() {
         Map<String, String> opcionesValidas = new TreeMap<>();
         opcionesValidas.put("1", "1. Mostrar gastos");
@@ -279,9 +273,5 @@ public class Presentacion {
         opcionesValidas.put("1", "1. Mostrar todos los gastos");
         opcionesValidas.put("5", "5. Volver al menu principal");
         return new Menu(opcionesValidas);
-    }
-
-    public void printCategories(List<CategoryDto> list) {
-        categoryListPrinter.print(list);
     }
 }
