@@ -18,14 +18,7 @@ public class ExpenseMonitoring implements IExpenseMonitoring {
     private List<CategoryDto> categoryDtoList = new ArrayList<>();
 
     private ExpenseMonitoring() {
-
-    }
-
-    public synchronized static ExpenseMonitoring getInstance() {
-        if (expenseMonitoring == null) {
-            expenseMonitoring = new ExpenseMonitoring();
-        }
-        return expenseMonitoring;
+        loadCategoryList();
     }
 
     public void loadCategoryList() {
@@ -36,6 +29,13 @@ public class ExpenseMonitoring implements IExpenseMonitoring {
             categoryMapList.put(i + 1, categoryDtos.get(i)
                                                    .getName());
         }
+    }
+
+    public synchronized static ExpenseMonitoring getInstance() {
+        if (expenseMonitoring == null) {
+            expenseMonitoring = new ExpenseMonitoring();
+        }
+        return expenseMonitoring;
     }
 
     public Map<Integer, String> getCategoryMapList() {

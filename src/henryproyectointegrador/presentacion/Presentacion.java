@@ -26,7 +26,6 @@ public class Presentacion {
     }
 
     public void initConsoleMenu() {
-        System.out.println(expenseMonitoring.getCategoryMapList());
         Menu menuPrincipal = this.crearMenuPrincipal();
         String menuPrincipalOpcionSeleccionada;
 
@@ -39,10 +38,11 @@ public class Presentacion {
                     Menu menuCategoria = crearMenuCategoria();
                     Menu menuConfirmarGuardar = crearMenuConfirmar();
                     String menuAgregarGastoOpcionSeleccionada;
-                    ExpenseDto expenseDto = new ExpenseDto();
-                    double amount = 0;
-                    int categoryId;
+                    Double amount = null;
+                    Integer categoryId = null;
                     Date date = new Date();
+                    ExpenseDto expenseDto = new ExpenseDto();
+                    expenseDto.setDate(date);
                     do {
                         System.out.println("\n========= Menu - Agregar gasto ===========");
                         menuAgregarGastoOpcionSeleccionada = menuAgregarGasto.mostrarMenu();
@@ -52,7 +52,7 @@ public class Presentacion {
                                 amount = solicitarDouble("Ingresa el monto del gasto: ");
                                 expenseDto.setAmount(amount);
                                 System.out.printf("Monto asignado: %.2f\n", amount);
-                                System.out.println(expenseDto);
+                                printer.print(expenseDto, false);
                             }
                             case "2" -> {
                                 System.out.println("\n---------- Asignar categoria ----------");
@@ -60,19 +60,32 @@ public class Presentacion {
                                 expenseDto.setIdCategory(categoryId);
                                 System.out.printf("Categoria asignada: %s\n", expenseMonitoring.getCategoryMapList()
                                                                                                .get(categoryId));
-                                System.out.println(expenseDto);
+                                printer.print(expenseDto, false);
                             }
                             case "3" -> {
                                 System.out.println("\n---------- Asignar fecha ----------");
                                 date = solicitarFecha("Ingresa la fecha del gasto siguiendo el formato yyyy-MM-dd: ");
                                 expenseDto.setDate(date);
                                 System.out.printf("Fecha asignada: %s\n", date);
-                                System.out.println(expenseDto);
+                                printer.print(expenseDto, false);
                             }
                             case "4" -> {
+                                if (amount == null) {
+                                    System.out.println("field amount is required");
+                                    break;
+                                }
+                                if (categoryId == null) {
+                                    System.out.println("field category is required");
+                                    break;
+                                }
+                                if (amount <= 0) {
+                                    System.out.printf("amount \"%s\" is not valid", amount);
+                                    break;
+                                }
+
                                 System.out.println("\n---------- Guardar gasto ----------");
+                                printer.print(expenseDto, false);
                                 System.out.println("¿Desea guardar el gasto? (1. Si / 5. No)");
-                                System.out.println(expenseDto);
                                 String menuGuardarGastoOpcionSeleccionada = menuConfirmarGuardar.mostrarMenu();
                                 if (menuGuardarGastoOpcionSeleccionada.equals("1")) {
                                     expenseMonitoring.insert(expenseDto);

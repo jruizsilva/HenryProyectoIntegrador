@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Printer {
-    private static ExpenseMonitoring expenseMonitoring;
+    private static ExpenseMonitoring expenseMonitoring = ExpenseMonitoring.getInstance();
     private static Printer printer;
 
     private Printer() {
@@ -25,7 +25,7 @@ public class Printer {
     }
 
     public void printExpenses(List<ExpenseDto> expenseDtoList, boolean showId) {
-        Map<Integer, String> categoryList = expenseMonitoring.getCategoryMapList();
+        Map<Integer, String> categoryMapList = expenseMonitoring.getCategoryMapList();
         LinkedHashSet<String> fieldNames = new LinkedHashSet<>();
         if (showId) {
             fieldNames.add("id");
@@ -40,7 +40,7 @@ public class Printer {
         expenseDtoList.forEach(expense -> {
             String id = String.valueOf(expense.getId());
             String amount = String.valueOf(expense.getAmount());
-            String category = categoryList.get(expense.getIdCategory());
+            String category = categoryMapList.get(expense.getIdCategory());
             String date = String.valueOf(expense.getDate());
             tl.addRow(id, amount, category, date);
         });
@@ -48,7 +48,7 @@ public class Printer {
     }
 
     public void print(ExpenseDto expenseDto, boolean showId) {
-        Map<Integer, String> categoryList = expenseMonitoring.getCategoryMapList();
+        Map<Integer, String> categoryMapList = expenseMonitoring.getCategoryMapList();
         LinkedHashSet<String> fieldNames = new LinkedHashSet<>();
         if (showId) {
             fieldNames.add("id");
@@ -63,7 +63,10 @@ public class Printer {
 
         String id = String.valueOf(expenseDto.getId());
         String amount = String.valueOf(expenseDto.getAmount());
-        String category = categoryList.get(expenseDto.getIdCategory());
+        String category = "null";
+        if (expenseDto.getIdCategory() != null) {
+            category = categoryMapList.get(expenseDto.getIdCategory());
+        }
         String date = String.valueOf(expenseDto.getDate());
         if (showId) {
             tl.addRow(id, amount, category, date);
