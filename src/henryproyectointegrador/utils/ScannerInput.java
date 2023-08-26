@@ -87,7 +87,7 @@ public class ScannerInput {
         return entradaInt;
     }
 
-    public static void cerrarScanner() {
+    public static void closeScanner() {
         ScannerInput.scanner.close();
     }
 }
