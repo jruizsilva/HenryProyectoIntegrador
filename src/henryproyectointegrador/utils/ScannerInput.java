@@ -67,7 +67,7 @@ public class ScannerInput {
         return localDate;
     }
 
-    public static String solicitarString() {
+    public static String requestStringInput() {
         return scanner.next();
     }
 
