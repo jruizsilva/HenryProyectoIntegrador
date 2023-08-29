@@ -23,6 +23,10 @@ public class ScannerValidator {
     }
 
     public static boolean validOption(String opcion, String[] opcionesValidas) {
+        if (opcion == null || opcionesValidas == null) {
+            throw new IllegalArgumentException();
+        }
+
         return Arrays.asList(opcionesValidas)
                      .contains(opcion);
     }
