@@ -1,7 +1,7 @@
 package henryproyectointegrador.dao.h2;
 
 import henryproyectointegrador.config.ConnectionH2;
-import henryproyectointegrador.dao.CategoryCRUD;
+import henryproyectointegrador.dao.CategoryDao;
 import henryproyectointegrador.dao.dto.CategoryDto;
 
 import java.sql.Connection;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class H2CategoryCRUD implements CategoryCRUD {
+public class H2CategoryDao implements CategoryDao {
     private static final String SQL_SELECT_ALL = "SELECT id_category, name FROM categories";
     private static final String SQL_SELECT_BY_ID = "SELECT id_category, name FROM categories WHERE id_category = ?";
     private static final String SQL_INSERT = "INSERT INTO categories (name) VALUES (?)";

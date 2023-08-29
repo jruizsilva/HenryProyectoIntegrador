@@ -21,7 +21,7 @@ public class Presentacion {
     private static Menu updateMenu;
     private static Menu updateSubMenu;
     private static Menu deleteMenu;
-    private static Menu getMenu;
+    private static Menu printMenu;
     private static Menu categoryMenu;
 
     private Presentacion() {
@@ -38,7 +38,7 @@ public class Presentacion {
         updateMenu = menuFactory.createUpdateMenu();
         updateSubMenu = menuFactory.createUpdateSubMenu();
         deleteMenu = menuFactory.createDeleteMenu();
-        getMenu = menuFactory.createGetMenu();
+        printMenu = menuFactory.createShowDataMenu();
         categoryMenu = menuFactory.createCategoryMenu();
     }
 
@@ -60,7 +60,7 @@ public class Presentacion {
                 case "1" -> initAddMenu();
                 case "2" -> initUpdateMenu();
                 case "3" -> initDeleteMenu();
-                case "4" -> initGetMenu();
+                case "4" -> initShowDataMenu();
                 case "5" -> closeScanner();
             }
         } while (!mainMenuOptSel.equals("5"));
@@ -254,21 +254,27 @@ public class Presentacion {
         } while (!deleteMenuOptSel.equals("5"));
     }
 
-    private static void initGetMenu() {
-        String getMenuOptSel;
+    private static void initShowDataMenu() {
+        String showDataMenuOptSel;
         System.out.println("\n========= Menu - Mostrar gastos ===========");
         do {
-            getMenuOptSel = getMenu.initMenu()
-                                   .requestInput();
-            switch (getMenuOptSel) {
+            showDataMenuOptSel = printMenu.initMenu()
+                                          .requestInput();
+            switch (showDataMenuOptSel) {
                 case "1" -> {
-                    List<ExpenseDto> gastos = expenseMonitoring.selectAll();
-                    printer.printExpenses(gastos, true);
+                    List<ExpenseDto> allExpenses = expenseMonitoring.selectAll();
+                    printer.printExpenses(allExpenses, true);
+                }
+                case "2" -> {
+                    String categoryMenuOptSel = categoryMenu.initMenu()
+                                                            .requestInput();
+                    List<ExpenseDto> expensesByCategory = expenseMonitoring.selectAllByCategoryId(Integer.parseInt(categoryMenuOptSel));
+                    printer.printExpenses(expensesByCategory, true);
                 }
                 case "5" -> {
                 }
             }
-        } while (!getMenuOptSel.equals("5"));
+        } while (!showDataMenuOptSel.equals("5"));
     }
 
     private static void printExpenses() {

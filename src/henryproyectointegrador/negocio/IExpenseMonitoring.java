@@ -1,11 +1,10 @@
 package henryproyectointegrador.negocio;
 
-import henryproyectointegrador.dao.dto.ExpenseDto;
-import henryproyectointegrador.interfaces.CRUD;
+import henryproyectointegrador.dao.ExpenseDao;
 
 import java.util.Map;
 
-public interface IExpenseMonitoring extends CRUD<ExpenseDto, Integer> {
+public interface IExpenseMonitoring extends ExpenseDao {
     void loadCategoryList();
 
     Map<Integer, String> getCategoryMapList();

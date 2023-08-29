@@ -43,4 +43,8 @@ class ScannerValidatorTest {
             Assertions.assertThrows(IllegalArgumentException.class, () -> validOption(option, null), "Debe lanzar IllegalArgumentException exception");
         }
     }
+
+    @Nested
+    class ValidDoubleTest {
+    }
 }

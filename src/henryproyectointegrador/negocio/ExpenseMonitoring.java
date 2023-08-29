@@ -2,8 +2,8 @@ package henryproyectointegrador.negocio;
 
 import henryproyectointegrador.dao.dto.CategoryDto;
 import henryproyectointegrador.dao.dto.ExpenseDto;
-import henryproyectointegrador.dao.h2.H2CategoryCRUD;
-import henryproyectointegrador.dao.h2.H2ExpenseCRUD;
+import henryproyectointegrador.dao.h2.H2CategoryDao;
+import henryproyectointegrador.dao.h2.H2ExpenseDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import java.util.TreeMap;
 
 public class ExpenseMonitoring implements IExpenseMonitoring {
     private static ExpenseMonitoring expenseMonitoring;
-    private final H2ExpenseCRUD expenseDao = new H2ExpenseCRUD();
-    private final H2CategoryCRUD categoryDao = new H2CategoryCRUD();
+    private final H2ExpenseDao expenseDao = new H2ExpenseDao();
+    private final H2CategoryDao categoryDao = new H2CategoryDao();
     private final Map<Integer, String> categoryMapList = new TreeMap<>();
     private List<CategoryDto> categoryDtoList = new ArrayList<>();
 
@@ -40,6 +40,11 @@ public class ExpenseMonitoring implements IExpenseMonitoring {
 
     public Map<Integer, String> getCategoryMapList() {
         return categoryMapList;
+    }
+
+    @Override
+    public List<ExpenseDto> selectAllByCategoryId(Integer categoryId) {
+        return expenseDao.selectAllByCategoryId(categoryId);
     }
 
     @Override

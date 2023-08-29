@@ -71,9 +71,10 @@ public class MenuFactory {
         return new Menu(validOptions);
     }
 
-    public Menu createGetMenu() {
+    public Menu createShowDataMenu() {
         Map<String, String> validOptions = new TreeMap<>();
         validOptions.put("1", "1. Mostrar todos los gastos");
+        validOptions.put("2", "2. Mostrar gastos por categoria");
         validOptions.put("5", "5. Volver al menu principal");
         return new Menu(validOptions);
     }
