@@ -5,6 +5,7 @@ import henryproyectointegrador.dao.dto.ExpenseDto;
 import henryproyectointegrador.dao.h2.H2CategoryDao;
 import henryproyectointegrador.dao.h2.H2ExpenseDao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,16 @@ public class ExpenseMonitoring implements IExpenseMonitoring {
     @Override
     public List<ExpenseDto> selectAllByCategoryId(Integer categoryId) {
         return expenseDao.selectAllByCategoryId(categoryId);
+    }
+
+    @Override
+    public List<ExpenseDto> selectAllByDate(LocalDate date) {
+        return expenseDao.selectAllByDate(date);
+    }
+
+    @Override
+    public List<ExpenseDto> selectAllBetweenTwoDates(LocalDate date, LocalDate currentDate) {
+        return expenseDao.selectAllBetweenTwoDates(date, currentDate);
     }
 
     @Override

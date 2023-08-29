@@ -75,7 +75,18 @@ public class MenuFactory {
         Map<String, String> validOptions = new TreeMap<>();
         validOptions.put("1", "1. Mostrar todos los gastos");
         validOptions.put("2", "2. Mostrar gastos por categoria");
+        validOptions.put("3", "3. Mostrar gastos por fecha");
         validOptions.put("5", "5. Volver al menu principal");
+        return new Menu(validOptions);
+    }
+
+    public Menu createDateMenu() {
+        Map<String, String> validOptions = new TreeMap<>();
+        validOptions.put("1", "1. Mostrar los gastos de hoy");
+        validOptions.put("2", "3. Mostrar los gastos de este mes");
+        validOptions.put("3", "3. Mostrar los gastos de este año");
+        validOptions.put("4", "4. Mostrar los gastos entre dos fechas");
+        validOptions.put("5", "5. Volver");
         return new Menu(validOptions);
     }
 

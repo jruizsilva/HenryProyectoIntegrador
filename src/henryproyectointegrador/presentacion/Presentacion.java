@@ -23,6 +23,7 @@ public class Presentacion {
     private static Menu deleteMenu;
     private static Menu printMenu;
     private static Menu categoryMenu;
+    private static Menu dateMenu;
 
     private Presentacion() {
         printer = Printer.getInstance();
@@ -40,6 +41,7 @@ public class Presentacion {
         deleteMenu = menuFactory.createDeleteMenu();
         printMenu = menuFactory.createShowDataMenu();
         categoryMenu = menuFactory.createCategoryMenu();
+        dateMenu = menuFactory.createDateMenu();
     }
 
     public synchronized static Presentacion getInstance() {
@@ -270,6 +272,36 @@ public class Presentacion {
                                                             .requestInput();
                     List<ExpenseDto> expensesByCategory = expenseMonitoring.selectAllByCategoryId(Integer.parseInt(categoryMenuOptSel));
                     printer.printExpenses(expensesByCategory, true);
+                }
+                case "3" -> {
+                    String dateMenuOptSel = dateMenu.initMenu()
+                                                    .requestInput();
+                    switch (dateMenuOptSel) {
+                        case "1": {
+                            LocalDate currentDate = LocalDate.now();
+                            List<ExpenseDto> expensesToday = expenseMonitoring.selectAllByDate(currentDate);
+                            printer.printExpenses(expensesToday, true);
+                            break;
+                        }
+                        case "2": {
+                            LocalDate currentDate = LocalDate.now();
+                            LocalDate firstDayOfTheCurrentMonth = LocalDate.of(currentDate.getYear(), currentDate.getMonthValue(), 1);
+                            List<ExpenseDto> expensesOfTheCurrentMonth = expenseMonitoring.selectAllBetweenTwoDates(firstDayOfTheCurrentMonth, currentDate);
+                            printer.printExpenses(expensesOfTheCurrentMonth, true);
+                            break;
+                        }
+                        case "3": {
+                            LocalDate currentDate = LocalDate.now();
+                            LocalDate firstDayOfTheYear = LocalDate.of(currentDate.getYear(), 1, 1);
+                            List<ExpenseDto> expensesOfTheCurrentYear = expenseMonitoring.selectAllBetweenTwoDates(firstDayOfTheYear, currentDate);
+                            printer.printExpenses(expensesOfTheCurrentYear, true);
+                            break;
+                        }
+                        case "4": {
+                        }
+                        case "5": {
+                        }
+                    }
                 }
                 case "5" -> {
                 }
